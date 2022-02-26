@@ -6,7 +6,7 @@ This script requires Admin, and is not designed for Windows 11. It might still w
 
 * You must credit @ Flaros Overfield as per MIT License agreement
 * Everything must be packed into one .PS1 file that can be executed with Right Click on a stock Windows installation, without any further action. 
-* No external files allowed unless they're created by the .PS1 file itself.
+* No external files allowed unless they're created OR downloaded by the .PS1 file itself.
 * NO REMOVAL OF FEATURES, that's not what this script is for.
 
 This Powershell Script WILL redirect your entire user folder to the Z: Drive. This is a very common and effortless step to prevent C: failure induced data loss, but it comes with the downside that the Z: Drive must be plugged in at all times. If you don't want this, please open this file with notepad and remove the first batch of registry keys below 'Windows Registry Editor Version 5.00', labeled Move User folder to Z:\Documents.. (Should be at line ~50.) This can take between 10 to 60 minutes depending on your storage speed, internet connection speed, or processor speed. 
