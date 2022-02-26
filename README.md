@@ -8,11 +8,11 @@ This Powershell Script WILL redirect your entire user folder to the Z: Drive. Th
 
 Please confirm the requirements below have been met, as they can NOT be automated.
 
-  Your PortableApps drive, or any storage drive of your choice, MUST be mounted to Z: and have a backup. You can use Disk Management to fix this.
-  App Installer MUST be up to date from the Microsoft Store, and Windows 10 is updated to at least 20H2.
-  Focus Assist, Sleep, and Storage Sense MUST be turned off. (Fix coming soon.)
-  This Powershell file MUST be placed in your desktop.
-  Standard Password Login MUST be enabled.
-  Your PC MUST be renamed properly.
+    Your PortableApps drive, or any storage drive of your choice, MUST be mounted to Z: and have a backup. You can use Disk Management to fix this.
+    App Installer MUST be up to date from the Microsoft Store, and Windows 10 is updated to at least 20H2.
+    Focus Assist, Sleep, and Storage Sense MUST be turned off. (Fix coming soon.)
+    This Powershell file MUST be placed in your desktop.
+    Standard Password Login MUST be enabled.
+    Your PC MUST be renamed properly.
 
 If everything is ready, simply download the .PS1 file, place it on your desktop, and run it.
