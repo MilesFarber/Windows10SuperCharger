@@ -9,7 +9,7 @@ This script requires Admin, and is not designed for Windows 11. It might still w
 * No external files allowed unless they're created OR downloaded by the .PS1 file itself.
 * NO REMOVAL OF FEATURES, that's not what this script is for. You can only disable them if the user can easily re-enable them (Such as the navigation pane)
 
-This Powershell Script WILL redirect your entire user folder to the Z: Drive. This is a very common and effortless step to prevent C: failure induced data loss, but it comes with the downside that the Z: Drive must be plugged in at all times. If you don't want this, please open this file with notepad and remove the first batch of registry keys below 'Windows Registry Editor Version 5.00', labeled ''Move User folder to Z:\Documents.''. (Should be at line ~50.)
+This Powershell Script WILL redirect your entire user folder to the Z: Drive. This is a very common and effortless step to prevent C: failure induced data loss, but it comes with the downside that the Z: Drive must be plugged in at all times. If you don't want this, please open this file with notepad and remove the first batch of registry keys below 'Windows Registry Editor Version 5.00', labeled ''Move User folder to Z:\Documents.''. (Should be at line ~50.) Again, you can also fork your own version of the Windows 10 Super Charger.
 
 # Usage
 
