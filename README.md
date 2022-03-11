@@ -5,7 +5,7 @@ This Powershell Script File was created because too many ''debloat'' scripts on 
 This script requires Admin, and is not designed for Windows 11. It might still work, but don't expect it to magically fix your taskbar. It can be ran multiple times and does NOT require a restart. However, it will fail if multiple instances are running at once. You can close it and re-run it later, anytime. You can fork your own version on GitHub, on these conditions:
 
 * You must credit @ Flaros Overfield as per MIT License agreement
-* Everything must be packed into one .PS1 file that can be executed with Right Click on a stock Windows installation, without any further action other than pressing Enter to continue.
+* Everything must be packed into one .PS1 file that can be executed with Right Click on a stock Windows installation, without requiring any other files.
 * No external files allowed unless they're created OR downloaded by the .PS1 file itself.
 * NO REMOVAL OF FEATURES, that's not what this script is for. You can only disable them if the user can easily re-enable them (Such as the navigation pane)
 
