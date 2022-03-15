@@ -18,7 +18,6 @@ Please confirm the requirements below have been met, as they can NOT be automate
 * App Installer MUST be up to date from the Microsoft Store, and Windows 10 is updated to at least 20H2.
 * Windows Hello MUST be temporarily disabled, you can re-enable it after the script finished.
 * Focus Assist, Sleep, and Storage Sense MUST be turned off. (Fix coming soon.)
-* This Powershell file MUST be placed in your desktop.
 * Your PC MUST be renamed properly.
 
-If everything is ready, simply download the .PS1 file, place it on your desktop, and run it. It can take between 10 to 60 minutes depending on your storage speed, internet connection speed, or processor speed. 
+If everything is ready, simply download the .PS1 file, place it on your desktop (or any folder that doesn't require admin permissions), and run it. It can take between 10 to 60 minutes depending on your storage speed, internet connection speed, or processor speed. 
