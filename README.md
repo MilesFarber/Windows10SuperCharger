@@ -2,7 +2,7 @@
 
 This Powershell Script File was created because too many ''debloat'' scripts on Github created by room temperature IQ individuals remove important functionality that power users (and Windows itself) actually need. It entirely automates the configuration process that is USUALLY done right after installing Windows 10 Pro 20H2 or above, without removing any features. It's also used in my Windows 10 installation speedrun content.
 
-This script requires Admin, and is not designed for Windows 11. It might still work, but don't expect it to magically fix your taskbar. It can be ran multiple times and does NOT require a restart. However, it will fail if multiple instances are running at once. You can close it and re-run it later, anytime. You can fork your own version on GitHub, on these conditions:
+This script requires Admin, and is not designed for Windows 11. It might still work, but don't expect it to magically fix your electron infested UI. It can be ran multiple times and does NOT require a restart. However, it will fail if multiple instances are running at once. You can close it and re-run it later, anytime. You can fork your own version on GitHub, on these conditions:
 
 * You must credit @ Flaros Overfield as per MIT License agreement
 * Everything must be packed into one .PS1 file that can be executed with Right Click on a stock Windows installation, without requiring any other files, UNLESS they're created OR downloaded by the .PS1 file itself.
