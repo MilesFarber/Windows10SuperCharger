@@ -22,6 +22,114 @@ Write-Output "SUPERCHARGING..."
 Write-Output "Setting Ethernet connections to Private."
 Set-NetConnectionProfile -Name "Network" -NetworkCategory Private
 
+Write-Output "Removing MSSTORE from Winget Sources because it generates conflicts with the standard Winget repository."
+winget source remove msstore
+
+Write-Output "Installing useful stuff. If this section is full of red errors, please check Readme.MD"
+$packages = @(
+  "Microsoft.dotnet"
+  "Microsoft.dotNetFramework"
+  "Microsoft.dotnetPreview"
+  "Microsoft.dotnetRuntime.3-x64"
+  "Microsoft.dotnetRuntime.3-x86"
+  "Microsoft.dotnetRuntime.4-x64"
+  "Microsoft.dotnetRuntime.4-x86"
+  "Microsoft.dotnetRuntime.5-x64"
+  "Microsoft.dotnetRuntime.5-x86"
+  "Microsoft.VC++2005Redist-x64"
+  "Microsoft.VC++2005Redist-x86"
+  "Microsoft.VC++2008Redist-x64"
+  "Microsoft.VC++2008Redist-x86"
+  "Microsoft.VC++2010Redist-x64"
+  "Microsoft.VC++2010Redist-x86"
+  "Microsoft.VC++2012Redist-x64"
+  "Microsoft.VC++2012Redist-x86"
+  "Microsoft.VC++2013Redist-x64"
+  "Microsoft.VC++2013Redist-x86"
+  "Microsoft.VC++2015Redist-x64"
+  "Microsoft.VC++2015Redist-x86"
+  "Microsoft.VC++2015-2022Redist-x64"
+  "Microsoft.VC++2015-2022Redist-x86"
+  "Microsoft.WindowsTerminal"
+  "Microsoft.WingetCreate"
+  "Microsoft.OneDrive"
+  "Microsoft.Teams"
+  "Microsoft.Edge"
+
+  "K-LiteCodecPackBasic"
+)
+foreach ($package in $packages) {
+  Write-Output "Trying to install $package"
+  winget install $package
+}
+
+Write-Output "Uninstalling ads. You can reinstall these later through the Microsoft Store, Winget, or Chocolatey."
+$apps = @(
+  "2FE3CB00.PicsArt-PhotoStudio"
+  "46928bounde.EclipseManager"
+  "4DF9E0F8.Netflix"
+  "613EBCEA.PolarrPhotoEditorAcademicEdition"
+  "6Wunderkinder.Wunderlist"
+  "7EE7776C.LinkedInforWindows"
+  "89006A2E.AutodeskSketchBook"
+  "9E2F88E3.Twitter"
+  "A278AB0D.DisneyMagicKingdoms"
+  "A278AB0D.MarchofEmpires"
+  "ActiproSoftwareLLC"
+  "ActiproSoftwareLLC.562882FEEB491"
+  "AdobeSystemsIncorporated.AdobePhotoshopExpress"
+  "BubbleWitch3Saga"
+  "CAF9E577.Plex"  
+  "CandyCrush"
+  "ClearChannelRadioDigital.iHeartRadio"
+  "D52A8D61.FarmVille2CountryEscape"
+  "D5EA27B7.Duolingo-LearnLanguagesforFree"
+  "DB6EA5DB.CyberLinkMediaSuiteEssentials"
+  "Disney"
+  "Dolby"
+  "DolbyLaboratories.DolbyAccess"
+  "Drawboard.DrawboardPDF"
+  "Duolingo-LearnLanguagesforFree"
+  "EclipseManager"
+  "Facebook"
+  "Facebook.Facebook"
+  "Fitbit.FitbitCoach"
+  "FlaregamesGmbH.RoyalRevolt2"
+  "Flipboard"
+  "Flipboard.Flipboard"
+  "GAMELOFTSA.Asphalt8Airborne"
+  "KeeperSecurityInc.Keeper"
+  "King.com.*"
+  "King.com.BubbleWitch3Saga"
+  "King.com.CandyCrushSaga"
+  "King.com.CandyCrushSodaSaga"
+  "Minecraft"
+  "NORDCURRENT.COOKINGFEVER"
+  "PandoraMediaInc"
+  "PandoraMediaInc.29680B314EFC2"
+  "Playtika.CaesarsSlotsFreeCasino"
+  "Royal Revolt"
+  "ShazamEntertainmentLtd.Shazam"
+  "SlingTVLLC.SlingTV"
+  "Spotify"
+  "SpotifyAB.SpotifyMusic"
+  "Sway"
+  "TheNewYorkTimes.NYTCrossword"
+  "ThumbmunkeysLtd.PhototasticCollage"
+  "TuneIn.TuneInRadio"
+  "Twitter"
+  "WinZipComputing.WinZipUniversal"
+  "Wunderlist"
+  "XINGAG.XING"
+)
+foreach ($app in $apps) {
+  Write-Output "Trying to remove $app"
+  Get-AppxPackage -Name $app -AllUsers | Remove-AppxPackage -AllUsers
+  Get-AppXProvisionedPackage -Online |
+  Where-Object DisplayName -EQ $app |
+  Remove-AppxProvisionedPackage -Online
+}
+
 Write-Output "If Temp REG file already exists, it will be deleted to avoid conflicts with Add-Content."
 Set-Location C:\Users
 Remove-Item -Path C:\Users\Temp.reg -Force
@@ -31,7 +139,7 @@ Add-Content C:\Users\Temp.reg "Windows Registry Editor Version 5.00
 
 ;MAJOR TWEAKS
 
-;Move User folder to Z:\Documents.
+;Move User folder to Z:\Documents, Regedit pass.
 [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders]
 ""AppData""=hex(2):5a,00,3a,00,5c,00,44,00,6f,00,63,00,75,00,6d,00,65,00,6e,00,\
   74,00,73,00,5c,00,44,00,6f,00,63,00,75,00,6d,00,65,00,6e,00,74,00,73,00,5c,\
@@ -74,6 +182,57 @@ Add-Content C:\Users\Temp.reg "Windows Registry Editor Version 5.00
   74,00,73,00,5c,00,52,00,65,00,63,00,65,00,6e,00,74,00,73,00,00,00
 ""History""=hex(2):5a,00,3a,00,5c,00,44,00,6f,00,63,00,75,00,6d,00,65,00,6e,00,\
   74,00,73,00,5c,00,52,00,65,00,63,00,65,00,6e,00,74,00,73,00,00,00
+
+;Move User folder to Z:\Documents, Properties pass.
+[HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders]
+;3D Objects
+""{31C0DD25-9439-4F12-BF41-7FF4EDA38722}""=hex(2):5a,00,3a,00,5c,00,44,00,6f,00,\
+  63,00,75,00,6d,00,65,00,6e,00,74,00,73,00,5c,00,33,00,44,00,20,00,4f,00,62,\
+  00,6a,00,65,00,63,00,74,00,73,00,00,00
+;Contacts
+""{56784854-C6CB-462B-8169-88E350ACB882}""=hex(2):5a,00,3a,00,5c,00,44,00,6f,00,\
+  63,00,75,00,6d,00,65,00,6e,00,74,00,73,00,5c,00,43,00,6f,00,6e,00,74,00,61,\
+  00,63,00,74,00,73,00,00,00
+;Desktop
+""{754AC886-DF64-4CBA-86B5-F7FBF4FBCEF5}""=hex(2):5a,00,3a,00,5c,00,44,00,6f,00,\
+  63,00,75,00,6d,00,65,00,6e,00,74,00,73,00,5c,00,44,00,65,00,73,00,6b,00,74,\
+  00,6f,00,70,00,00,00
+;Documents
+""{F42EE2D3-909F-4907-8871-4C22FC0BF756}""=hex(2):5a,00,3a,00,5c,00,44,00,6f,00,\
+  63,00,75,00,6d,00,65,00,6e,00,74,00,73,00,5c,00,44,00,6f,00,63,00,75,00,6d,\
+  00,65,00,6e,00,74,00,73,00,00,00
+;Downloads
+""{374DE290-123F-4565-9164-39C4925E467B}""=hex(2):5a,00,3a,00,5c,00,44,00,6f,00,\
+  63,00,75,00,6d,00,65,00,6e,00,74,00,73,00,5c,00,44,00,6f,00,77,00,6e,00,6c,\
+  00,6f,00,61,00,64,00,73,00,00,00
+;Downloads, uh, again
+""{7D83EE9B-2244-4E70-B1F5-5393042AF1E4}""=hex(2):5a,00,3a,00,5c,00,44,00,6f,00,\
+  63,00,75,00,6d,00,65,00,6e,00,74,00,73,00,5c,00,44,00,6f,00,77,00,6e,00,6c,\
+  00,6f,00,61,00,64,00,73,00,00,00
+;Links
+""{BFB9D5E0-C6A9-404C-B2B2-AE6DB6AF4968}""=hex(2):5a,00,3a,00,5c,00,44,00,6f,00,\
+  63,00,75,00,6d,00,65,00,6e,00,74,00,73,00,5c,00,4c,00,69,00,6e,00,6b,00,73,\
+  00,00,00
+;Music
+""{A0C69A99-21C8-4671-8703-7934162FCF1D}""=hex(2):5a,00,3a,00,5c,00,44,00,6f,00,\
+  63,00,75,00,6d,00,65,00,6e,00,74,00,73,00,5c,00,4d,00,75,00,73,00,69,00,63,\
+  00,00,00
+;Pictures
+""{0DDD015D-B06C-45D5-8C4C-F59713854639}""=hex(2):5a,00,3a,00,5c,00,44,00,6f,00,\
+  63,00,75,00,6d,00,65,00,6e,00,74,00,73,00,5c,00,50,00,69,00,63,00,74,00,75,\
+  00,72,00,65,00,73,00,00,00
+;Saved Games
+""{4C5C32FF-BB9D-43B0-B5B4-2D72E54EAAA4}""=hex(2):5a,00,3a,00,5c,00,44,00,6f,00,\
+  63,00,75,00,6d,00,65,00,6e,00,74,00,73,00,5c,00,53,00,61,00,76,00,65,00,64,\
+  00,20,00,47,00,61,00,6d,00,65,00,73,00,00,00
+;Recents
+""{7D1D3A04-DEBB-4115-95CF-2F29DA2920DA}""=hex(2):5a,00,3a,00,5c,00,44,00,6f,00,\
+  63,00,75,00,6d,00,65,00,6e,00,74,00,73,00,5c,00,52,00,65,00,63,00,65,00,6e,\
+  00,74,00,73,00,00,00
+;Videos
+""{35286A68-3C57-41A1-BBB1-0EAE73D76C95}""=hex(2):5a,00,3a,00,5c,00,44,00,6f,00,\
+  63,00,75,00,6d,00,65,00,6e,00,74,00,73,00,5c,00,56,00,69,00,64,00,65,00,6f,\
+  00,73,00,00,00
 
 ;Automatically give important processes higher priority.
 [HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Psched]
@@ -1589,114 +1748,6 @@ Add-Content C:\Users\Temp.reg "Windows Registry Editor Version 5.00
 Start-Sleep 1
 Write-Output "Merging."
 Reg import C:\Users\Temp.reg
-
-Write-Output "Removing MSSTORE from Winget Sources because it generates conflicts with the standard Winget repository."
-winget source remove msstore
-
-Write-Output "Uninstalling ads. You can reinstall these later through the Microsoft Store, Winget, or Chocolatey."
-$apps = @(
-  "2FE3CB00.PicsArt-PhotoStudio"
-  "46928bounde.EclipseManager"
-  "4DF9E0F8.Netflix"
-  "613EBCEA.PolarrPhotoEditorAcademicEdition"
-  "6Wunderkinder.Wunderlist"
-  "7EE7776C.LinkedInforWindows"
-  "89006A2E.AutodeskSketchBook"
-  "9E2F88E3.Twitter"
-  "A278AB0D.DisneyMagicKingdoms"
-  "A278AB0D.MarchofEmpires"
-  "ActiproSoftwareLLC"
-  "ActiproSoftwareLLC.562882FEEB491"
-  "AdobeSystemsIncorporated.AdobePhotoshopExpress"
-  "BubbleWitch3Saga"
-  "CAF9E577.Plex"  
-  "CandyCrush"
-  "ClearChannelRadioDigital.iHeartRadio"
-  "D52A8D61.FarmVille2CountryEscape"
-  "D5EA27B7.Duolingo-LearnLanguagesforFree"
-  "DB6EA5DB.CyberLinkMediaSuiteEssentials"
-  "Disney"
-  "Dolby"
-  "DolbyLaboratories.DolbyAccess"
-  "Drawboard.DrawboardPDF"
-  "Duolingo-LearnLanguagesforFree"
-  "EclipseManager"
-  "Facebook"
-  "Facebook.Facebook"
-  "Fitbit.FitbitCoach"
-  "FlaregamesGmbH.RoyalRevolt2"
-  "Flipboard"
-  "Flipboard.Flipboard"
-  "GAMELOFTSA.Asphalt8Airborne"
-  "KeeperSecurityInc.Keeper"
-  "King.com.*"
-  "King.com.BubbleWitch3Saga"
-  "King.com.CandyCrushSaga"
-  "King.com.CandyCrushSodaSaga"
-  "Minecraft"
-  "NORDCURRENT.COOKINGFEVER"
-  "PandoraMediaInc"
-  "PandoraMediaInc.29680B314EFC2"
-  "Playtika.CaesarsSlotsFreeCasino"
-  "Royal Revolt"
-  "ShazamEntertainmentLtd.Shazam"
-  "SlingTVLLC.SlingTV"
-  "Spotify"
-  "SpotifyAB.SpotifyMusic"
-  "Sway"
-  "TheNewYorkTimes.NYTCrossword"
-  "ThumbmunkeysLtd.PhototasticCollage"
-  "TuneIn.TuneInRadio"
-  "Twitter"
-  "WinZipComputing.WinZipUniversal"
-  "Wunderlist"
-  "XINGAG.XING"
-)
-foreach ($app in $apps) {
-  Write-Output "Trying to remove $app"
-  Get-AppxPackage -Name $app -AllUsers | Remove-AppxPackage -AllUsers
-  Get-AppXProvisionedPackage -Online |
-  Where-Object DisplayName -EQ $app |
-  Remove-AppxProvisionedPackage -Online
-}
-
-Write-Output "Installing useful stuff. If this section is full of red errors, please check Readme.MD"
-$packages = @(
-  "Microsoft.dotnet"
-  "Microsoft.dotNetFramework"
-  "Microsoft.dotnetPreview"
-  "Microsoft.dotnetRuntime.3-x64"
-  "Microsoft.dotnetRuntime.3-x86"
-  "Microsoft.dotnetRuntime.4-x64"
-  "Microsoft.dotnetRuntime.4-x86"
-  "Microsoft.dotnetRuntime.5-x64"
-  "Microsoft.dotnetRuntime.5-x86"
-  "Microsoft.VC++2005Redist-x64"
-  "Microsoft.VC++2005Redist-x86"
-  "Microsoft.VC++2008Redist-x64"
-  "Microsoft.VC++2008Redist-x86"
-  "Microsoft.VC++2010Redist-x64"
-  "Microsoft.VC++2010Redist-x86"
-  "Microsoft.VC++2012Redist-x64"
-  "Microsoft.VC++2012Redist-x86"
-  "Microsoft.VC++2013Redist-x64"
-  "Microsoft.VC++2013Redist-x86"
-  "Microsoft.VC++2015Redist-x64"
-  "Microsoft.VC++2015Redist-x86"
-  "Microsoft.VC++2015-2022Redist-x64"
-  "Microsoft.VC++2015-2022Redist-x86"
-  "Microsoft.WindowsTerminal"
-  "Microsoft.WingetCreate"
-  "Microsoft.OneDrive"
-  "Microsoft.Teams"
-  "Microsoft.Edge"
-
-  "K-LiteCodecPackBasic"
-)
-foreach ($package in $packages) {
-  Write-Output "Trying to install $package"
-  winget install $package
-}
 
 Write-Output "Cleaning up."
 Remove-Item "C:\Windows\Temp\*" -Recurse -Force -ErrorAction SilentlyContinue
