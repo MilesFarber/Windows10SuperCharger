@@ -844,6 +844,10 @@ Add-Content C:\Users\Temp.reg "Windows Registry Editor Version 5.00
 [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications]
 ""GlobalUserDisabled""=dword:00000001
 
+;Disable storing thumbnails in a Thumbs.db file on Network Shared Drives
+[HKEY_CURRENT_USER\SOFTWARE\Policies\Microsoft\Windows\Explorer]
+""DisableThumbsDBOnNetworkFolders""=dword:00000001
+
 ;Restore Toolbars in Taskbar
 [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer]
 ""NoToolbarsOnTaskbar""=dword:00000000
