@@ -1,4 +1,4 @@
-# Welcome to Flaros Overfield's Windows 10 Super Charger.
+# Welcome to Flaros Overfield's Windows 10 Super Charger
 
 This Powershell Script File was created because too many ''debloat'' scripts on Github created by room temperature IQ individuals remove important functionality that power users (and Windows itself) actually need. It entirely automates the configuration process that is USUALLY done right after installing Windows 10 Pro 20H2 or above, without removing any features. It's also used in my Windows 10 installation speedrun content.
 
@@ -10,7 +10,7 @@ This script requires Admin, and is not designed for Windows 11. It might still w
 
 This Powershell Script WILL redirect your entire user folder to the Z: Drive. This is a very common and effortless step to prevent C: failure induced data loss, but it comes with the downside that the Z: Drive must be plugged in at all times. If you don't want this, please open this file with notepad and remove the batches of registry keys below 'Windows Registry Editor Version 5.00' that are labeled ''Move User folder to Z:\Documents.''. Do not remove any other batch. Again, you can also fork your own version of the Windows 10 Super Charger.
 
-# Usage
+## Usage
 
 Please confirm the requirements below have been met, as they can NOT be automated.
 
@@ -21,4 +21,4 @@ Please confirm the requirements below have been met, as they can NOT be automate
 * Focus Assist, Sleep, and Storage Sense MUST be turned off. This cannot be automated because the only way to do that is to use a keyboard macro, and the location of focus assist may change between Windows versions.
 * Your PC MUST be renamed properly. This is required to fix SAMBA. This cannot be automated because YOU have to choose what to name your PC, and it's good practice to not give it the same name as another PC in your household.
 
-If everything is ready, simply download the .PS1 file, place it on your desktop (or any folder that doesn't require admin permissions), and run it. It can take between 10 to 60 minutes depending on your storage speed, internet connection speed, or processor speed. 
+If everything is ready, simply download the .PS1 file, place it on your desktop (or any folder that doesn't require admin permissions), and run it. It can take between 10 to 60 minutes depending on your storage speed, internet connection speed, or processor speed.
