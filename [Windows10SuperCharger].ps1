@@ -22,9 +22,6 @@ Write-Output "SUPERCHARGING..."
 Write-Output "Setting Ethernet connections to Private."
 Set-NetConnectionProfile -Name "Network" -NetworkCategory Private
 
-Write-Output "Removing MSSTORE from Winget Sources because it generates conflicts with the standard Winget repository."
-winget source remove msstore
-
 Write-Output "Installing useful stuff. If this section is full of red errors, please check Readme.MD"
 $packages = @(
   "Microsoft.AppInstallerFileBuilder"
@@ -95,7 +92,7 @@ $packages = @(
 )
 foreach ($package in $packages) {
   Write-Output "Trying to install $package"
-  winget install $package
+  winget install $package -h -e -s winget
 }
 
 Write-Output "Uninstalling ads. You can reinstall these later through the Microsoft Store, Winget, or Chocolatey."
