@@ -87,8 +87,6 @@ $packages = @(
   "Microsoft.dotNetFramework"
   "Microsoft.dotnet"
   "Microsoft.dotnetPreview"
-
-  "K-LiteCodecPackBasic"
 )
 foreach ($package in $packages) {
   Write-Output "Trying to install $package"
