@@ -17,8 +17,7 @@ Please confirm the requirements below have been met, as they can NOT be automate
 * Every single driver must be up to date. This is required for obvious reasons. This cannot be automated for obvious reasons.
 * Your PortableApps drive, or any storage drive of your choice, MUST have a backup, and be mounted on Z:. You can use Disk Management or Map Network Drive to fix this. This cannot be automated because YOU have to choose which drive must become the Z: drive.
 * App Installer MUST be up to date from the Microsoft Store, and Windows 10 is updated to at least 20H2. This is required because this script uses Winget to automatically install .NET, VCRedist and other important runtimes required to run most programs. This cannot be automated in any way, shape or form due to how the Microsoft Store functions. This will be fixed in 22H2.
-* Remote Desktop must be enabled and set up correctly, this is required to fix SAMBA. This won't be automated for security reasons.
-* Focus Assist, Sleep, and Storage Sense MUST be turned off. This cannot be automated because the only way to do that is to use a keyboard macro, and the location of focus assist may change between Windows versions.
+* You must have logged in at least once with your full Password, without using PIN or Hello. this is required to fix SAMBA. This won't be automated for security reasons.
 * Your PC MUST be renamed properly. This is required to fix SAMBA. This cannot be automated because YOU have to choose what to name your PC, and it's good practice to not give it the same name as another PC in your household.
 
 If everything is ready, simply download the .PS1 file, place it on your desktop (or any folder that doesn't require admin permissions), and run it. It can take between 10 to 60 minutes depending on your storage speed, internet connection speed, or processor speed.

@@ -19,8 +19,33 @@ Write-Output "THIS IS YOUR LAST CHANCE TO REVIEW ALL REQUIREMENTS."
 pause
 Write-Output "SUPERCHARGING..."
 
-Write-Output "Setting Ethernet connections to Private."
+Write-Output "Preventing Windows Update restarts."
+net stop wuauserv
+
+Write-Output "Preventing Sleep and Hibernation."
+#powercfg /S 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c
+#powercfg /setdcvalueindex SCHEME_CURRENT SUB_ENERGYSAVER ESBATTTHRESHOLD 50
+powercfg /X monitor-timeout-ac 0
+powercfg /X monitor-timeout-dc 0
+powercfg /X disk-timeout-ac 0
+powercfg /X disk-timeout-dc 0
+powercfg /X standby-timeout-ac 0
+powercfg /X standby-timeout-dc 0
+powercfg /X hibernate-timeout-ac 0
+powercfg /X hibernate-timeout-dc 0
+#powercfg /H off
+
+Write-Output "Disabling SMBv1 to avoid EternalBlue because sadly we are STILL sharing oxygen with people running Windows XP in 2022."
+Set-SmbServerConfiguration -EnableSMB1Protocol $false -Force
+
+Write-Output "Setting Ethernet connections to Private and enabling Remote Desktop. This is required to fix SAMBA. If you see a red error here, you're on WiFi, and will need to enable Private manually."
 Set-NetConnectionProfile -Name "Network" -NetworkCategory Private
+Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server' -name "fDenyTSConnections" -value 0
+Enable-NetFirewallRule -DisplayGroup "Remote Desktop"
+
+Write-Output "Disabling SSD-unfriendly Paging."
+fsutil behavior set DisableLastAccess 1
+fsutil behavior set EncryptPagingFile 0
 
 Write-Output "If Temp REG file already exists, it will be deleted to avoid conflicts with Add-Content."
 Set-Location C:\Users
@@ -217,7 +242,7 @@ Add-Content C:\Users\Temp.reg "Windows Registry Editor Version 5.00
 ""MultiTaskingAltTabFilter""=dword:00000000
 ""NavPaneExpandToCurrentFolder""=dword:00000001
 ""NavPaneShowAllCloudStates""=dword:00000001
-""NavPaneShowAllFolders""=dword:00000001
+""NavPaneShowAllFolders""=dword:00000000
 ""PersistBrowsers""=dword:00000001
 ""ReindexedProfile""=dword:00000001
 ""SeparateProcess""=dword:00000000
@@ -433,7 +458,7 @@ Add-Content C:\Users\Temp.reg "Windows Registry Editor Version 5.00
 ""LowLevelHooksTimeout""=dword:00001000
 ""MenuShowDelay""=""100""
 ""PaintDesktopVersion""=dword:00000000
-""WaitToKillAppTimeout""=""5000""
+""WaitToKillAppTimeout""=""1000""
 ""WaitToKillServiceTimeout""=dword:00001000
 ""WheelScrollChars""=""1""
 ""WheelScrollLines""=""1""
@@ -540,7 +565,7 @@ Add-Content C:\Users\Temp.reg "Windows Registry Editor Version 5.00
 	00,00,A8,00,00,00,00,00,\
 	00,00,E0,00,00,00,00,00
 
-;Show Hibernation option in the Shutdown menu.
+;Show all options in the Shutdown menu.
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Power]
 ""HibernateEnabled""=dword:00000001
 [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FlyoutMenuSettings]
@@ -649,14 +674,22 @@ Add-Content C:\Users\Temp.reg "Windows Registry Editor Version 5.00
 ;Enable WINDOWS+V History menu.
 [HKEY_CURRENT_USER\SOFTWARE\Microsoft\Clipboard]
 ""EnableClipboardHistory""=dword:00000001
+""EnableCloudClipboard""=dword:00000001
 [HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\System]
 ""AllowClipboardHistory""=-
+""AllowCrossDeviceClipboard""=-
 
 ;Force enable battery time estimation.
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Power]
 ""EnergyEstimationEnabled""=dword:00000001
 [HKEY_CURRENT_USER\Software\Microsoft\Shell\USB]
 ""NotifyOnWeakCharger""=dword:00000001
+
+;Clear page file at shutdown. This WILL increase shutdown time in exchange for security and disk space.
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management]
+""ClearPageFileAtShutdown""=dword:00000001
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\NlaSvc\Parameters\Internet]
+""EnableActiveProbing""=dword:00000001
 
 ;Quickly invert screen with CTRL+Windows+C when legacy x86 programs don't have dark theme.
 [HKEY_CURRENT_USER\SOFTWARE\Microsoft\ColorFiltering]
@@ -668,6 +701,8 @@ Add-Content C:\Users\Temp.reg "Windows Registry Editor Version 5.00
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control]
 ""SvcHostSplitThresholdInKB""=dword:04000000
 ""WaitToKillServiceTimeout""=""1000""
+""HungAppTimeout""=""1000""
+""AutoEndTasks""=""1""
 
 ;MINOR TWEAKS
 
@@ -699,17 +734,9 @@ Add-Content C:\Users\Temp.reg "Windows Registry Editor Version 5.00
 [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\OEM\Device\Capture]
 ""NoPhysicalCameraLED""=dword:00000001
 
-;Auto End Tasks during shutdown.
-[HKEY_CURRENT_USER\Control Panel\Desktop]
-""AutoEndTasks""=""1""
-
 ;Disable Auto BSOD Restart.
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\CrashControl]
 ""AutoReboot""=dword:00000000
-
-;Clear page file at shutdown.
-[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management]
-""ClearPageFileAtShutdown""=dword:00000001
 
 ;Disable Startup delay.
 [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Serialize]
@@ -1730,9 +1757,10 @@ foreach ($app in $apps) {
   Remove-AppxProvisionedPackage -Online
 }
 
-Write-Output "Installing useful stuff. If this section is full of red errors, please check Readme.MD"
+Write-Output "Installing useful stuff with Winget. If this section is full of red errors, please check Readme.MD"
 $packages = @(
   "Microsoft.DirectX"
+  "Microsoft.Git"
   "Microsoft.VC++2005Redist-x64"
   "Microsoft.VC++2005Redist-x86"
   "Microsoft.VC++2008Redist-x64"
@@ -1768,18 +1796,43 @@ foreach ($package in $packages) {
   winget install $package -h -e -s winget
 }
 
-Write-Output "Cleaning up."
-Remove-Item "C:\Windows\Temp\*" -Recurse -Force -ErrorAction SilentlyContinue
-Remove-Item "C:\OneDriveTemp\" -Recurse -Force -ErrorAction SilentlyContinue
-Remove-Item "C:\PerfLogs\" -Recurse -Force -ErrorAction SilentlyContinue
-Remove-Item %APPDATA%\Microsoft\Windows\Recent\AutomaticDestinations\*.automaticDestinations-ms -Recurse -FORCE -ErrorAction SilentlyContinue
-fsutil behavior set DisableLastAccess 1
-fsutil behavior set EncryptPagingFile 0
+Write-Output "Eating Chocolate. Mmmmmh."
+Invoke-Expression ((new-object net.webclient).DownloadString('https://chocolatey.org/install.ps1'))
+choco feature enable -n allowGlobalConfirmation
+choco upgrade chocolatey
+$chocos = @(
+  "chocolatey-core.extension"
+  "chocolatey-compatibility.extension"
+  "chocolatey-windowsupdate.extension"
+  "chocolatey-visualstudio.extension"
+  "chocolatey-dotnetfx.extension"
+  "dotnetfx"
+  "dotnetcore"
+  "dotnetcore3-desktop-runtime"
+  "dotnet3.5"
+)
+foreach ($choco in $chocos) {
+  Write-Output "Trying to install $choco"
+  choco install $choco -y
+}
+
+Write-Output "Wiping junk folders."
 cleanmgr /sagerun:1 | out-Null
+$junks = @(
+  "C:\ProgramData\Microsoft\Windows\SystemData"
+  "C:\Windows\Temp\*"
+  "C:\OneDriveTemp\"
+  "C:\PerfLogs\"
+)
+foreach ($junk in $junks) {
+  Write-Output "Trying to remove $junk"
+  Remove-Item "$junk" -Recurse -Force -ErrorAction SilentlyContinue
+}
+
 Write-Output "Rebooting Explorer.exe. TaskKill will be used instead of Stop-Process due to permission issues."
 taskkill /F /IM explorer.exe
 Start-Process "explorer.exe"
 $wshell = New-Object -ComObject wscript.shell; $wshell.SendKeys('^{ESCAPE}')
 
 Write-Output "All tasks completed! Feel free to close this window."
-Start-Sleep 43210
+timeout /t 43210 /nobreak
