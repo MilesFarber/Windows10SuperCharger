@@ -22,7 +22,7 @@ Please confirm the requirements below have been met, as they can NOT be automate
 
 If everything is ready, perform these steps.
 
-1. Press Win + X, then A to start Poweshell with Admin. Paste this code: `Invoke-Expression ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/FlarosOverfield/Windows10SuperCharger/trainer/Windows10SuperCharger.ps1'))`
+1. Press Win + X, then A to start Powershell with Admin. Paste this code: `Invoke-Expression ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/FlarosOverfield/Windows10SuperCharger/trainer/Windows10SuperCharger.ps1'))`
 2. ?????
 3. PROFIT!!!1
 
