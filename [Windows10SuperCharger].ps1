@@ -633,11 +633,12 @@ Add-Content C:\Users\Temp.reg "Windows Registry Editor Version 5.00
 [HKEY_CURRENT_USER\Software\Classes\CLSID\{645FF040-5081-101B-9F08-00AA002F954E}]
 ""System.IsPinnedToNameSpaceTree""=dword:00000001
 
-;Fix Network Drive not showing on Elevated Programs, enable Virtualization and display verbose Logon information.
+;Fix Network Drive not showing on Elevated Programs, enable Virtualization, display verbose Logon, and disable UAC.
 [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System]
 ""EnableLinkedConnections""=dword:00000001
 ""EnableVirtualization""=dword:00000001
 ""VerboseStatus""=dword:00000001
+""EnableLUA""=dword:00000000
 
 ;Stop automatically deleting thumbnail cache. This fixes folders being locked by Thumbs.db.
 [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches\Thumbnail Cache]
@@ -765,6 +766,9 @@ Add-Content C:\Users\Temp.reg "Windows Registry Editor Version 5.00
 ;Enable automatic registry backup.
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Configuration Manager]
 ""EnablePeriodicBackup""=dword:00000001
+
+;Force enable show all in context menu
+[-HKEY_CURRENT_USER\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}]
 
 ;MENU TWEAKS
 
@@ -1745,17 +1749,19 @@ $packages = @(
   "Microsoft.VC++2015-2022Redist-x86"
   "Microsoft.DotNet.AspNetCore.3_1"
   "Microsoft.DotNet.AspNetCore.5"
+  "Microsoft.DotNet.AspNetCore.6"
   "Microsoft.DotNet.DesktopRuntime.3_1"
   "Microsoft.DotNet.DesktopRuntime.5"
+  "Microsoft.DotNet.DesktopRuntime.6"
   "Microsoft.DotNet.HostingBundle.3_1"
   "Microsoft.DotNet.HostingBundle.5"
+  "Microsoft.DotNet.HostingBundle.6"
   "Microsoft.DotNet.Runtime.3_1"
   "Microsoft.DotNet.Runtime.5"
+  "Microsoft.DotNet.Runtime.6"
   "Microsoft.DotNet.SDK.3_1"
   "Microsoft.DotNet.SDK.5"
-  "Microsoft.dotNetFramework"
-  "Microsoft.dotnet"
-  "Microsoft.dotnetPreview"
+  "Microsoft.DotNet.SDK.6"
 )
 foreach ($package in $packages) {
   Write-Output "Trying to install $package"
