@@ -8,21 +8,14 @@ This script requires Admin, and is not designed for Windows 11. It might still w
 2. Everything must be packed into one .PS1 file that can be executed with Right Click on a stock Windows installation, without requiring any other files, UNLESS they're created OR downloaded by the .PS1 file itself.
 3. NO REMOVAL OF FEATURES, that's not what this script is for. You can only disable them if the user can easily re-enable them (Such as the navigation pane)
 
-This Powershell Script WILL redirect your entire user folder to the Z: Drive. This is a very common and effortless step to prevent C: failure induced data loss, but it comes with the downside that the Z: Drive must be plugged in at all times. If you don't want this, please open this file with notepad and remove the batches of registry keys below 'Windows Registry Editor Version 5.00' that are labeled ''Move User folder to Z:\Documents.''. Do not remove any other batch. Again, you can also fork your own version of the Windows 10 Super Charger.
-
-## Requirements
-
-Please confirm the requirements below have been met, as they can NOT be automated.
-
-1. Every single driver must be up to date. This is required for obvious reasons. This cannot be automated for obvious reasons.
-2. You must have logged in at least once with your full Password, without using PIN or Hello. this is required to fix SAMBA. This won't be automated for security reasons.
-3. Your PortableApps drive, or any storage drive of your choice, MUST have a backup, and be mounted on Z: through Disk Management. If your Z: drive is on a NAS or SAMBA, you will be asked for the username and password during the script. This cannot be fixed because `everyoneincludeanonymous` entirely stopped working thanks to the 21H1 update. Thanks Microsoft!
+This Powershell Script WILL redirect your entire user folder to the Z: Drive. This is a very common and effortless step to prevent C: failure induced data loss, but it comes with the downside that the Z: Drive must be plugged in at all times. If your Z: drive is on a NAS or SAMBA, you will be asked for the username and password during the script. This cannot be fixed because `everyoneincludeanonymous` entirely stopped working thanks to the 21H1 update. Thanks Microsoft!
 
 ### Installation
 
 If everything is ready, perform these steps.
 
-1. Press Win + X, then A to start Powershell with Admin. Paste this code: `Invoke-Expression ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/FlarosOverfield/Windows10SuperCharger/trainer/Windows10SuperCharger.ps1'))`
+1. You must have logged in at least once with your full Password, without using PIN or Hello. This is required to fix SAMBA. This won't be automated for security reasons.
+2. Press Win + X, then A to start Powershell with Admin. Paste this code: `Invoke-Expression ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/FlarosOverfield/Windows10SuperCharger/trainer/Windows10SuperCharger.ps1'))`
 2. ?????
 3. PROFIT!!!1
 
