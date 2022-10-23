@@ -1872,7 +1872,9 @@ foreach ($app in $apps) {
   Remove-AppxProvisionedPackage -Online
 }
 
-Write-Output "Installing Winget."
+Write-Output "Installing Winget. If you see red errors here, you're fucked. WinRice is the only github repository in existence that currently is storing MicrosoftVCLibs and MicrosoftUIXaml as AppX packages. Red errors here means that that repository has been taken down, and you will have to manually install App Installer from the Microsoft Store. There is absolutely no other way to do this."
+Add-AppXPackage https://github.com/WinRice/Files/blob/main/Microsoft.VCLibs.140.00.UWPDesktop_8wekyb3d8bbwe.Appx?raw=true
+Add-AppXPackage https://github.com/WinRice/Files/blob/main/Microsoft.UI.Xaml.2.7_8wekyb3d8bbwe.Appx?raw=true
 Add-AppXPackage https://github.com/microsoft/winget-cli/releases/download/v1.3.2091/Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle
 Write-Output "Installing useful stuff with Winget."
 $packages = @(
