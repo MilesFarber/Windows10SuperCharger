@@ -15,7 +15,7 @@ else
 }
 
 Start-Process https://raw.githubusercontent.com/FlarosOverfield/Windows10SuperCharger/trainer/README.md
-$pcname = Read-Host -Prompt "THIS IS YOUR LAST CHANCE TO REVIEW ALL REQUIREMENTS. IF EVERYTHING IS READY, ENTER THIS PC'S DESIRED NAME TO BEGIN."
+$pcname = Read-Host -Prompt "THIS IS YOUR LAST CHANCE TO DOUBLE CHECK THE README. If everything is ready, enter this PC's desired name to begin. Naming this PC ''Server'' will cause the script to automatically share your Z drive so other clients can access it via \\server\z."
 Rename-Computer -NewName $pcname -Force
 Write-Output "SUPERCHARGING..."
 
@@ -46,15 +46,7 @@ Enable-NetFirewallRule -DisplayGroup "Remote Desktop"
 Write-Output "Checking if Z drive exists."
 $pathExists = Test-Path -Path "Z:\"
 If ($pathExists) {
-Write-Output "Z drive detected."
 If ($pcname = "Server") {New-SmbShare -Name "Z" -Path "Z:\" -FullAccess "everyone"}
-}
-else {
-Write-Output "Z drive not detected, attempting to map it from a server."
-net use Z: \\server\z /persistent:yes
-}
-$pathExists = Test-Path -Path "Z:\" #Declared twice to clear RAM
-If ($pathExists) {
 Write-Output "Z drive fully armed, commencing user folder redirect. If Temp REG file already exists, it will be deleted to avoid conflicts with Add-Content. If you see a red error here, ignore it, it means the file already didn't exist."
 Set-Location C:\Users
 Remove-Item -Path C:\Users\User.reg -Force
