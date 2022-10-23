@@ -721,9 +721,9 @@ Add-Content C:\Users\Temp.reg "Windows Registry Editor Version 5.00
 
 ;Disable forced credentials in SAMBA.
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Lsa]
-"everyoneincludesanonymous"=dword:00000001
+""everyoneincludesanonymous""=dword:00000001
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\LanmanServer\Parameters]
-"restrictnullsessaccess"=dword:00000000
+""restrictnullsessaccess""=dword:00000000
 
 ;MINOR TWEAKS
 
