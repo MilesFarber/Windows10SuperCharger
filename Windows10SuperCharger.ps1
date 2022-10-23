@@ -47,7 +47,7 @@ Write-Output "Checking if Z drive exists."
 $pathExists = Test-Path -Path "Z:\"
 If ($pathExists) {
 Write-Output "Z drive detected."
-If ($pcname = server) {New-SmbShare -Name "Z" -Path "Z:\" -FullAccess "everyone"}
+If ($pcname = "Server") {New-SmbShare -Name "Z" -Path "Z:\" -FullAccess "everyone"}
 }
 else {
 Write-Output "Z drive not detected, attempting to map it from a server."
@@ -55,7 +55,7 @@ net use Z: \\server\z /persistent:yes
 }
 $pathExists = Test-Path -Path "Z:\" #Declared twice to clear RAM
 If ($pathExists) {
-Write-Output "Z drive fully armed, commencing user folder redirect. If Temp REG file already exists, it will be deleted to avoid conflicts with Add-Content."
+Write-Output "Z drive fully armed, commencing user folder redirect. If Temp REG file already exists, it will be deleted to avoid conflicts with Add-Content. If you see a red error here, ignore it, it means the file already didn't exist."
 Set-Location C:\Users
 Remove-Item -Path C:\Users\User.reg -Force
 New-item -Path . -Name "User.reg"
@@ -162,7 +162,7 @@ Write-Output "Disabling SSD-unfriendly Paging."
 fsutil behavior set DisableLastAccess 1
 fsutil behavior set EncryptPagingFile 0
 
-Write-Output "If Temp REG file already exists, it will be deleted to avoid conflicts with Add-Content."
+Write-Output "If Temp REG file already exists, it will be deleted to avoid conflicts with Add-Content. If you see a red error here, ignore it, it means the file already didn't exist."
 Set-Location C:\Users
 Remove-Item -Path C:\Users\Temp.reg -Force
 New-item -Path . -Name "Temp.reg"
