@@ -47,6 +47,21 @@ Write-Output "Disabling SSD-unfriendly Paging."
 fsutil behavior set DisableLastAccess 1
 fsutil behavior set EncryptPagingFile 0
 
+Write-Output "Checking if Z is local."
+$Networkpath = "Z:\" 
+$pathExists = Test-Path -Path $Networkpath
+net use Z: /delete
+Remove-PSDrive Z -Force -Verbose
+If ($pathExists)  {
+Write-Output "Local Z drive found, making this PC the new Server."
+Rename-Computer -NewName Server -Force
+New-SmbShare -Name "Z" -Path "Z:\" -FullAccess "everyone"
+}
+else {
+Write-Output "Local Z drive not found, attempting to map it."
+net use Z: \\server\z /persistent:yes
+}
+
 Write-Output "If Temp REG file already exists, it will be deleted to avoid conflicts with Add-Content."
 Set-Location C:\Users
 Remove-Item -Path C:\Users\Temp.reg -Force
@@ -703,6 +718,12 @@ Add-Content C:\Users\Temp.reg "Windows Registry Editor Version 5.00
 ""WaitToKillServiceTimeout""=""1000""
 ""HungAppTimeout""=""1000""
 ""AutoEndTasks""=""1""
+
+;Disable forced credentials in SAMBA.
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Lsa]
+"everyoneincludesanonymous"=dword:00000001
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\LanmanServer\Parameters]
+"restrictnullsessaccess"=dword:00000000
 
 ;MINOR TWEAKS
 
@@ -1757,7 +1778,9 @@ foreach ($app in $apps) {
   Remove-AppxProvisionedPackage -Online
 }
 
-Write-Output "Installing useful stuff with Winget. If this section is full of red errors, please check Readme.MD"
+Write-Output "Installing Winget."
+Add-AppXPackage https://github.com/microsoft/winget-cli/releases/download/v1.3.2091/Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle
+Write-Output "Installing useful stuff with Winget."
 $packages = @(
   "Microsoft.DirectX"
   "Microsoft.Git"

@@ -15,10 +15,8 @@ This Powershell Script WILL redirect your entire user folder to the Z: Drive. Th
 Please confirm the requirements below have been met, as they can NOT be automated.
 
 1. Every single driver must be up to date. This is required for obvious reasons. This cannot be automated for obvious reasons.
-2. Your PortableApps drive, or any storage drive of your choice, MUST have a backup, and be mounted on Z:. You can use Disk Management or Map Network Drive to fix this. This won't be automated because YOU have to choose which drive must become the Z: drive.
-3. App Installer MUST be up to date from the Microsoft Store, and Windows 10 is updated to at least 20H2. This is required because this script uses Winget to automatically install .NET, VCRedist and other important runtimes required to run 99% of programs. This cannot be automated in any way, shape or form due to how the Microsoft Store functions. This will be fixed in 22H2.
-4. You must have logged in at least once with your full Password, without using PIN or Hello. this is required to fix SAMBA. This won't be automated for security reasons.
-5. Your PC MUST be renamed properly. This is required to fix SAMBA. This might get automated in 22H2.
+2. You must have logged in at least once with your full Password, without using PIN or Hello. this is required to fix SAMBA. This won't be automated for security reasons.
+3. Your PortableApps drive, or any storage drive of your choice, MUST have a backup, and be mounted on Z: through Disk Management. If your Z: drive is on a NAS or SAMBA, you will be asked for the username and password during the script. This cannot be fixed because `everyoneincludeanonymous` entirely stopped working thanks to the 21H1 update. Thanks Microsoft!
 
 ### Installation
 
