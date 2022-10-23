@@ -1813,7 +1813,6 @@ $chocos = @(
   "dotnetfx"
   "dotnetcore"
   "dotnetcore3-desktop-runtime"
-  "dotnet3.5"
 )
 foreach ($choco in $chocos) {
   Write-Output "Trying to install $choco"
