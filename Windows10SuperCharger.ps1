@@ -43,11 +43,22 @@ Set-NetConnectionProfile -Name "Network" -NetworkCategory Private
 Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server' -name "fDenyTSConnections" -value 0
 Enable-NetFirewallRule -DisplayGroup "Remote Desktop"
 
+
 Write-Output "Checking if Z drive exists."
 $pathExists = Test-Path -Path "Z:\"
 If ($pathExists) {
+Write-Output "Local Z drive detected. If you named your PC Server, this will now become the Server."
 If ($pcname = "Server") {New-SmbShare -Name "Z" -Path "Z:\" -FullAccess "everyone"}
-Write-Output "Z drive fully armed, commencing user folder redirect. If Temp REG file already exists, it will be deleted to avoid conflicts with Add-Content. If you see a red error here, ignore it, it means the file already didn't exist."
+}
+else {
+Write-Output "Local Z drive not detected, trying to mount. Thanks to a bug introduced in 21H1 that is entirely unfixable since it reverts itself after each update, you will now be prompted for the Server share's Username and Password if it exists."
+net use Z: \\server\z /persistent:yes
+}
+
+Write-Output "Double checking if Z drive exists."
+$pathExists = Test-Path -Path "Z:\" #Declared twice to clear RAM.
+If ($pathExists) {
+Write-Output "Z drive fully armed, commencing user folder redirect. If User REG file already exists, it will be deleted to avoid conflicts with Add-Content. If you see a red error here, ignore it, it means the file already didn't exist."
 Set-Location C:\Users
 Remove-Item -Path C:\Users\User.reg -Force
 New-item -Path . -Name "User.reg"
@@ -147,7 +158,7 @@ Write-Output "Merging."
 Reg import C:\Users\User.reg
 }
 else {
-Write-Output "Z Drive not found, aborting user folder redirect."
+Write-Output "Z Drive still not found, aborting user folder redirect."
 }
 
 Write-Output "Disabling SSD-unfriendly Paging."
@@ -162,95 +173,6 @@ Write-Output "Printing REG File. This Script will use Add-Content to a REG file 
 Add-Content C:\Users\Temp.reg "Windows Registry Editor Version 5.00
 
 ;MAJOR TWEAKS
-
-;Move User folder to Z:\Documents, Regedit pass.
-[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders]
-""NetHood""=hex(2):5a,00,3a,00,5c,00,44,00,6f,00,63,00,75,00,6d,00,65,00,6e,00,\
-  74,00,73,00,5c,00,4c,00,69,00,6e,00,6b,00,73,00,00,00
-""PrintHood""=hex(2):5a,00,3a,00,5c,00,44,00,6f,00,63,00,75,00,6d,00,65,00,6e,00,\
-  74,00,73,00,5c,00,4c,00,69,00,6e,00,6b,00,73,00,00,00
-""Templates""=hex(2):5a,00,3a,00,5c,00,44,00,6f,00,63,00,75,00,6d,00,65,00,6e,00,\
-  74,00,73,00,5c,00,52,00,65,00,63,00,65,00,6e,00,74,00,73,00,00,00
-""Desktop""=hex(2):5a,00,3a,00,5c,00,44,00,6f,00,63,00,75,00,6d,00,65,00,6e,00,\
-  74,00,73,00,5c,00,44,00,65,00,73,00,6b,00,74,00,6f,00,70,00,00,00
-""Favorites""=hex(2):5a,00,3a,00,5c,00,44,00,6f,00,63,00,75,00,6d,00,65,00,6e,00,\
-  74,00,73,00,5c,00,4c,00,69,00,6e,00,6b,00,73,00,00,00
-""My Pictures""=hex(2):5a,00,3a,00,5c,00,44,00,6f,00,63,00,75,00,6d,00,65,00,6e,\
-  00,74,00,73,00,5c,00,50,00,69,00,63,00,74,00,75,00,72,00,65,00,73,00,00,00
-""My Music""=hex(2):5a,00,3a,00,5c,00,44,00,6f,00,63,00,75,00,6d,00,65,00,6e,00,\
-  74,00,73,00,5c,00,4d,00,75,00,73,00,69,00,63,00,00,00
-""My Video""=hex(2):5a,00,3a,00,5c,00,44,00,6f,00,63,00,75,00,6d,00,65,00,6e,00,\
-  74,00,73,00,5c,00,56,00,69,00,64,00,65,00,6f,00,73,00,00,00
-""Personal""=hex(2):5a,00,3a,00,5c,00,44,00,6f,00,63,00,75,00,6d,00,65,00,6e,00,\
-  74,00,73,00,5c,00,44,00,6f,00,63,00,75,00,6d,00,65,00,6e,00,74,00,73,00,00,\
-  00
-""Start Menu""=hex(2):5a,00,3a,00,5c,00,44,00,6f,00,63,00,75,00,6d,00,65,00,6e,\
-  00,74,00,73,00,5c,00,4c,00,69,00,6e,00,6b,00,73,00,00,00
-""Programs""=hex(2):5a,00,3a,00,5c,00,44,00,6f,00,63,00,75,00,6d,00,65,00,6e,00,\
-  74,00,73,00,5c,00,4c,00,69,00,6e,00,6b,00,73,00,00,00
-""Startup""=hex(2):5a,00,3a,00,5c,00,44,00,6f,00,63,00,75,00,6d,00,65,00,6e,00,\
-  74,00,73,00,5c,00,53,00,74,00,61,00,72,00,74,00,75,00,70,00,00,00
-""Recent""=hex(2):5a,00,3a,00,5c,00,44,00,6f,00,63,00,75,00,6d,00,65,00,6e,00,74,\
-  00,73,00,5c,00,52,00,65,00,63,00,65,00,6e,00,74,00,73,00,00,00
-""SendTo""=hex(2):5a,00,3a,00,5c,00,44,00,6f,00,63,00,75,00,6d,00,65,00,6e,00,74,\
-  00,73,00,5c,00,4c,00,69,00,6e,00,6b,00,73,00,00,00
-""Cache""=hex(2):5a,00,3a,00,5c,00,44,00,6f,00,63,00,75,00,6d,00,65,00,6e,00,74,\
-  00,73,00,5c,00,52,00,65,00,63,00,65,00,6e,00,74,00,73,00,00,00
-""Cookies""=hex(2):5a,00,3a,00,5c,00,44,00,6f,00,63,00,75,00,6d,00,65,00,6e,00,\
-  74,00,73,00,5c,00,52,00,65,00,63,00,65,00,6e,00,74,00,73,00,00,00
-""History""=hex(2):5a,00,3a,00,5c,00,44,00,6f,00,63,00,75,00,6d,00,65,00,6e,00,\
-  74,00,73,00,5c,00,52,00,65,00,63,00,65,00,6e,00,74,00,73,00,00,00
-
-;Move User folder to Z:\Documents, Properties pass.
-[HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders]
-;3D Objects
-""{31C0DD25-9439-4F12-BF41-7FF4EDA38722}""=hex(2):5a,00,3a,00,5c,00,44,00,6f,00,\
-  63,00,75,00,6d,00,65,00,6e,00,74,00,73,00,5c,00,33,00,44,00,20,00,4f,00,62,\
-  00,6a,00,65,00,63,00,74,00,73,00,00,00
-;Contacts
-""{56784854-C6CB-462B-8169-88E350ACB882}""=hex(2):5a,00,3a,00,5c,00,44,00,6f,00,\
-  63,00,75,00,6d,00,65,00,6e,00,74,00,73,00,5c,00,43,00,6f,00,6e,00,74,00,61,\
-  00,63,00,74,00,73,00,00,00
-;Desktop
-""{754AC886-DF64-4CBA-86B5-F7FBF4FBCEF5}""=hex(2):5a,00,3a,00,5c,00,44,00,6f,00,\
-  63,00,75,00,6d,00,65,00,6e,00,74,00,73,00,5c,00,44,00,65,00,73,00,6b,00,74,\
-  00,6f,00,70,00,00,00
-;Documents
-""{F42EE2D3-909F-4907-8871-4C22FC0BF756}""=hex(2):5a,00,3a,00,5c,00,44,00,6f,00,\
-  63,00,75,00,6d,00,65,00,6e,00,74,00,73,00,5c,00,44,00,6f,00,63,00,75,00,6d,\
-  00,65,00,6e,00,74,00,73,00,00,00
-;Downloads
-""{374DE290-123F-4565-9164-39C4925E467B}""=hex(2):5a,00,3a,00,5c,00,44,00,6f,00,\
-  63,00,75,00,6d,00,65,00,6e,00,74,00,73,00,5c,00,44,00,6f,00,77,00,6e,00,6c,\
-  00,6f,00,61,00,64,00,73,00,00,00
-;Downloads, uh, again
-""{7D83EE9B-2244-4E70-B1F5-5393042AF1E4}""=hex(2):5a,00,3a,00,5c,00,44,00,6f,00,\
-  63,00,75,00,6d,00,65,00,6e,00,74,00,73,00,5c,00,44,00,6f,00,77,00,6e,00,6c,\
-  00,6f,00,61,00,64,00,73,00,00,00
-;Links
-""{BFB9D5E0-C6A9-404C-B2B2-AE6DB6AF4968}""=hex(2):5a,00,3a,00,5c,00,44,00,6f,00,\
-  63,00,75,00,6d,00,65,00,6e,00,74,00,73,00,5c,00,4c,00,69,00,6e,00,6b,00,73,\
-  00,00,00
-;Music
-""{A0C69A99-21C8-4671-8703-7934162FCF1D}""=hex(2):5a,00,3a,00,5c,00,44,00,6f,00,\
-  63,00,75,00,6d,00,65,00,6e,00,74,00,73,00,5c,00,4d,00,75,00,73,00,69,00,63,\
-  00,00,00
-;Pictures
-""{0DDD015D-B06C-45D5-8C4C-F59713854639}""=hex(2):5a,00,3a,00,5c,00,44,00,6f,00,\
-  63,00,75,00,6d,00,65,00,6e,00,74,00,73,00,5c,00,50,00,69,00,63,00,74,00,75,\
-  00,72,00,65,00,73,00,00,00
-;Saved Games
-""{4C5C32FF-BB9D-43B0-B5B4-2D72E54EAAA4}""=hex(2):5a,00,3a,00,5c,00,44,00,6f,00,\
-  63,00,75,00,6d,00,65,00,6e,00,74,00,73,00,5c,00,53,00,61,00,76,00,65,00,64,\
-  00,20,00,47,00,61,00,6d,00,65,00,73,00,00,00
-;Recents
-""{7D1D3A04-DEBB-4115-95CF-2F29DA2920DA}""=hex(2):5a,00,3a,00,5c,00,44,00,6f,00,\
-  63,00,75,00,6d,00,65,00,6e,00,74,00,73,00,5c,00,52,00,65,00,63,00,65,00,6e,\
-  00,74,00,73,00,00,00
-;Videos
-""{35286A68-3C57-41A1-BBB1-0EAE73D76C95}""=hex(2):5a,00,3a,00,5c,00,44,00,6f,00,\
-  63,00,75,00,6d,00,65,00,6e,00,74,00,73,00,5c,00,56,00,69,00,64,00,65,00,6f,\
-  00,73,00,00,00
 
 ;Automatically give important processes higher priority.
 [HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Psched]
