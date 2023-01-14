@@ -1794,8 +1794,6 @@ Add-AppXPackage https://github.com/WinRice/Files/blob/main/Microsoft.UI.Xaml.2.7
 Add-AppXPackage https://github.com/microsoft/winget-cli/releases/download/v1.3.2091/Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle
 Write-Output "Installing useful stuff with Winget."
 $packages = @(
-  "Microsoft.DirectX"
-  "Microsoft.Edge"
   "Microsoft.Git"
   "Microsoft.VCRedist.2005.x86"
   "Microsoft.VCRedist.2005.x64"
