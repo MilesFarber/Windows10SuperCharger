@@ -15,7 +15,7 @@ else
 }
 
 Start-Process https://raw.githubusercontent.com/FlarosOverfield/Windows10SuperCharger/trainer/README.md
-$pcname = Read-Host -Prompt "THIS IS YOUR LAST CHANCE TO DOUBLE CHECK THE README. If everything is ready, enter this PC's desired name to begin. Naming this PC ''Server'' will cause the script to automatically share your Z drive so other clients can access it via \\server\z."
+$pcname = Read-Host -Prompt "THIS IS YOUR LAST CHANCE TO DOUBLE CHECK THE README. If everything is ready, enter this PC's desired name to begin."
 Rename-Computer -NewName $pcname -Force
 Write-Output "SUPERCHARGING..."
 
@@ -23,17 +23,16 @@ Write-Output "Preventing Windows Update restarts."
 net stop wuauserv
 
 Write-Output "Preventing Sleep and Hibernation."
-#powercfg /S 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c
-#powercfg /setdcvalueindex SCHEME_CURRENT SUB_ENERGYSAVER ESBATTTHRESHOLD 50
+powercfg /S 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c
+powercfg /setdcvalueindex SCHEME_CURRENT SUB_ENERGYSAVER ESBATTTHRESHOLD 99
 powercfg /X monitor-timeout-ac 0
-powercfg /X monitor-timeout-dc 0
+powercfg /X monitor-timeout-dc 1
 powercfg /X disk-timeout-ac 0
-powercfg /X disk-timeout-dc 0
+powercfg /X disk-timeout-dc 1
 powercfg /X standby-timeout-ac 0
 powercfg /X standby-timeout-dc 0
 powercfg /X hibernate-timeout-ac 0
 powercfg /X hibernate-timeout-dc 0
-#powercfg /H off
 
 Write-Output "Disabling SMBv1 to avoid EternalBlue because sadly we are STILL sharing oxygen with people running Windows XP in 2022."
 Set-SmbServerConfiguration -EnableSMB1Protocol $false -Force
@@ -43,19 +42,8 @@ Set-NetConnectionProfile -Name "Network" -NetworkCategory Private
 Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server' -name "fDenyTSConnections" -value 0
 Enable-NetFirewallRule -DisplayGroup "Remote Desktop"
 
-
 Write-Output "Checking if Z drive exists."
 $pathExists = Test-Path -Path "Z:\"
-If ($pathExists) {
-Write-Output "Local Z drive detected. If you named your PC Server, this will now become the Server."
-If ($pcname = "Server") {New-SmbShare -Name "Z" -Path "Z:\" -FullAccess "everyone"}
-}
-else {
-Write-Output "Local Z drive not detected, trying to mount. Thanks to a bug introduced in 21H1 that is entirely unfixable since it reverts itself after each update, you will now be prompted for the Server share's Username and Password if it exists."
-net use Z: \\server\z /persistent:yes
-}
-
-Write-Output "Double checking if Z drive exists."
 $pathExists = Test-Path -Path "Z:\" #Declared twice to clear RAM.
 If ($pathExists) {
 Write-Output "Z drive fully armed, commencing user folder redirect. If User REG file already exists, it will be deleted to avoid conflicts with Add-Content. If you see a red error here, ignore it, it means the file already didn't exist."
