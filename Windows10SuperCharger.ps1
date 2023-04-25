@@ -37,22 +37,6 @@ powercfg /X hibernate-timeout-dc 0
 Write-Output "Disabling SMBv1 to avoid EternalBlue because sadly we are STILL sharing oxygen with people running Windows XP in 2022."
 Set-SmbServerConfiguration -EnableSMB1Protocol $false -Force
 
-Write-Output "Forcing Firewall, Windows Store, and other useful services on."
-call setSvc.cmd mpssvc 2
-call setSvc.cmd BFE 2
-call setSvc.cmd AppXSvc 3
-call setSvc.cmd ClipSVC 3
-call setSvc.cmd FileCrypt 1
-call setSvc.cmd FileInfo 0
-call setSvc.cmd InstallService 3
-call setSvc.cmd LicenseManager 3
-call setSvc.cmd TokenBroker 3
-call setSvc.cmd WinHttpAutoProxySvc 3
-call setSvc.cmd wlidsvc 3
-call setSvc.cmd QwaveDrv 3
-call setSvc.cmd Qwave 3
-call setSvc.cmd WSearch 2
-
 Write-Output "Enabling high resolution Safe Mode."
 bcdedit /set {globalsettings} highestmode true > nul 2>&1
 
