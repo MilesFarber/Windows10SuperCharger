@@ -26,9 +26,9 @@ Write-Output "Preventing Sleep and Hibernation."
 powercfg /S 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c
 powercfg /setdcvalueindex SCHEME_CURRENT SUB_ENERGYSAVER ESBATTTHRESHOLD 99
 powercfg /X monitor-timeout-ac 0
-powercfg /X monitor-timeout-dc 1
+powercfg /X monitor-timeout-dc 0
 powercfg /X disk-timeout-ac 0
-powercfg /X disk-timeout-dc 1
+powercfg /X disk-timeout-dc 0
 powercfg /X standby-timeout-ac 0
 powercfg /X standby-timeout-dc 0
 powercfg /X hibernate-timeout-ac 0
@@ -36,6 +36,29 @@ powercfg /X hibernate-timeout-dc 0
 
 Write-Output "Disabling SMBv1 to avoid EternalBlue because sadly we are STILL sharing oxygen with people running Windows XP in 2022."
 Set-SmbServerConfiguration -EnableSMB1Protocol $false -Force
+
+Write-Output "Forcing Firewall, Windows Store, and other useful services on."
+call setSvc.cmd mpssvc 2
+call setSvc.cmd BFE 2
+call setSvc.cmd AppXSvc 3
+call setSvc.cmd ClipSVC 3
+call setSvc.cmd FileCrypt 1
+call setSvc.cmd FileInfo 0
+call setSvc.cmd InstallService 3
+call setSvc.cmd LicenseManager 3
+call setSvc.cmd TokenBroker 3
+call setSvc.cmd WinHttpAutoProxySvc 3
+call setSvc.cmd wlidsvc 3
+call setSvc.cmd QwaveDrv 3
+call setSvc.cmd Qwave 3
+call setSvc.cmd WSearch 2
+
+Write-Output "Enabling high resolution Safe Mode."
+bcdedit /set {globalsettings} highestmode true > nul 2>&1
+
+Write-Output "Forcing Virtualization and Network Discovery on via DISM."
+DISM /Online /Enable-Feature:Microsoft-Hyper-V-All /Quiet /NoRestart
+DISM /Online /Enable-Feature /FeatureName:SmbDirect /NoRestart
 
 Write-Output "Setting Ethernet connections to Private and enabling Remote Desktop. This is required to fix SAMBA. If you see a red error here, you're on WiFi, and will need to enable Private manually."
 Set-NetConnectionProfile -Name "Network" -NetworkCategory Private
@@ -503,6 +526,20 @@ Add-Content C:\Users\Temp.reg "Windows Registry Editor Version 5.00
   00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00
 ""CaptionHeight""=""-285""
 ""CaptionWidth""=""-285""
+[HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\DWM]
+""ColorizationColor""=dword:c4000000
+""ColorizationAfterglow""=dword:c4000000
+""AccentColor""=dword:ff000000
+""ColorPrevalence""=dword:00000001
+""AccentColorInactive""=dword:ff2b2b2b
+[HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Accent]
+""AccentColorMenu""=dword:c4000000
+
+;Skip Lock Screen
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Authentication\LogonUI\SessionData]
+""AllowLockScreen""=dword:00000000
+[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Personalization]
+""NoLockScreen""=dword:00000001
 
 ;Restore Classic Photo Viewer
 [HKEY_CLASSES_ROOT\Applications\photoviewer.dll]
@@ -608,7 +645,7 @@ Add-Content C:\Users\Temp.reg "Windows Registry Editor Version 5.00
 [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\ControlPanel\NameSpace\{E91B00A7-97F2-4934-B06A-101C194D2333}]
 @=""All Tasks""
 
-;Enable GameDVR and advanced GPU scheduling.
+;Enable Game Mode and advanced GPU scheduling.
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\GraphicsDrivers]
 ""HwSchMode""=dword:00000002
 [HKEY_CURRENT_USER\Software\Microsoft\GameBar]
@@ -808,6 +845,10 @@ Add-Content C:\Users\Temp.reg "Windows Registry Editor Version 5.00
 ;Enable Developer Mode
 [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUnlock]
 ""AllowAllTrustedApps""=dword:00000001
+
+;Remove Shortcut Text
+[HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer]
+""link""=hex:00,00,00,00
 
 ;Enable automatic registry backup.
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Configuration Manager]
@@ -1643,6 +1684,35 @@ Add-Content C:\Users\Temp.reg "Windows Registry Editor Version 5.00
 [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced]
 ""EncryptionContextMenu""=dword:00000001
 
+;Run With Priority
+[HKEY_CLASSES_ROOT\exefile\shell\Priority]
+""MUIVerb""=""Run with priority""
+""SubCommands""=""""
+[HKEY_CLASSES_ROOT\exefile\Shell\Priority\shell\001flyout]
+@=""Realtime""
+[HKEY_CLASSES_ROOT\exefile\Shell\Priority\shell\001flyout\command]
+@=""cmd /c start \""\"" /Realtime \""%1\""""
+[HKEY_CLASSES_ROOT\exefile\Shell\Priority\shell\002flyout]
+@=""High""
+[HKEY_CLASSES_ROOT\exefile\Shell\Priority\shell\002flyout\command]
+@=""cmd /c start \""\"" /High \""%1\""""
+[HKEY_CLASSES_ROOT\exefile\Shell\Priority\shell\003flyout]
+@=""Above normal""
+[HKEY_CLASSES_ROOT\exefile\Shell\Priority\shell\003flyout\command]
+@=""cmd /c start \""\"" /AboveNormal \""%1\""""
+[HKEY_CLASSES_ROOT\exefile\Shell\Priority\shell\004flyout]
+@=""Normal""
+[HKEY_CLASSES_ROOT\exefile\Shell\Priority\shell\004flyout\command]
+@=""cmd /c start \""\"" /Normal \""%1\""""
+[HKEY_CLASSES_ROOT\exefile\Shell\Priority\shell\005flyout]
+@=""Below normal""
+[HKEY_CLASSES_ROOT\exefile\Shell\Priority\shell\005flyout\command]
+@=""cmd /c start \""\"" /BelowNormal \""%1\""""
+[HKEY_CLASSES_ROOT\exefile\Shell\Priority\shell\006flyout]
+@=""Low""
+[HKEY_CLASSES_ROOT\exefile\Shell\Priority\shell\006flyout\command]
+@=""cmd /c start \""\"" /Low \""%1\""""
+
 ;Take Ownership
 [HKEY_CLASSES_ROOT\*\shell\TakeOwnership]
 @=""Take Ownership""
@@ -1767,6 +1837,32 @@ $apps = @(
   "*Wunderlist*"
   "*XINGAG.XING*"
   "*XING*"
+  "*3D*"
+  "*Alarms*"
+  "*Calculator*"
+  "*Calendar*"
+  "*Camera*"
+  "*Cortana*"
+  "*Groove*"
+  "*Music*"
+  "*Mail*"
+  "*Outlook*"
+  "*Maps*"
+  "*Solitaire*"
+  "*Movies*"
+  "*TV*"
+  "*Office*"
+  "*Onenote*"
+  "*Paint*"
+  "*People*"
+  "*Photos*"
+  "*Skype*"
+  "*Sticky*"
+  "*Notes*"
+  "*Tips*"
+  "*Voice*"
+  "*Recorder*"
+  "*Weather*"
 )
 foreach ($app in $apps) {
   Write-Output "Trying to remove $app"
@@ -1776,10 +1872,11 @@ foreach ($app in $apps) {
   Remove-AppxProvisionedPackage -Online
 }
 
-Write-Output "Installing Winget. If you see red errors here, you're fucked. WinRice is the only github repository in existence that currently is storing MicrosoftVCLibs and MicrosoftUIXaml as AppX packages. Red errors here means that that repository has been taken down, and you will have to manually install App Installer from the Microsoft Store. There is absolutely no other way to do this."
-Add-AppXPackage https://github.com/WinRice/Files/blob/main/Microsoft.VCLibs.140.00.UWPDesktop_8wekyb3d8bbwe.Appx?raw=true
-Add-AppXPackage https://github.com/WinRice/Files/blob/main/Microsoft.UI.Xaml.2.7_8wekyb3d8bbwe.Appx?raw=true
-Add-AppXPackage https://github.com/microsoft/winget-cli/releases/download/v1.3.2091/Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle
+Write-Output "Installing Winget. If you see red errors here, you're fucked. Windows10SuperCharger is currently the only github repository in existence that is storing MicrosoftVCLibs and MicrosoftUIXaml as downloadable AppX packages. Red errors here means that that repository has been taken down, and you will have to manually install App Installer from the Microsoft Store. There is absolutely no other way to do this."
+Add-AppXPackage https://github.com/FlarosOverfield/Windows10SuperCharger/raw/trainer/Winget/Microsoft.VCLibs.140.00.UWPDesktop_8wekyb3d8bbwe.Appx
+Add-AppXPackage https://github.com/FlarosOverfield/Windows10SuperCharger/raw/trainer/Winget/Microsoft.UI.Xaml.2.7_8wekyb3d8bbwe.Appx
+Add-AppXPackage https://github.com/FlarosOverfield/Windows10SuperCharger/raw/trainer/Winget/Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle
+
 Write-Output "Installing useful stuff with Winget."
 $packages = @(
   "Microsoft.Git"
@@ -1798,6 +1895,7 @@ $packages = @(
   "Microsoft.DotNet.DesktopRuntime.3_1"
   "Microsoft.DotNet.DesktopRuntime.5"
   "Microsoft.DotNet.DesktopRuntime.6"
+  "Microsoft.DotNet.DesktopRuntime.7"
 )
 foreach ($package in $packages) {
   Write-Output "Trying to install $package"
@@ -1826,8 +1924,7 @@ foreach ($choco in $chocos) {
 Write-Output "Wiping junk folders."
 cleanmgr /sagerun:1 | out-Null
 $junks = @(
-  "C:\ProgramData\Microsoft\Windows\SystemData"
-  "C:\Windows\Temp\*"
+  "C:\Windows\Temp\"
   "C:\OneDriveTemp\"
   "C:\PerfLogs\"
 )
