@@ -16,8 +16,9 @@ else
 
 Start-Process https://raw.githubusercontent.com/FlarosOverfield/Windows10SuperCharger/trainer/README.md
 $pcname = Read-Host -Prompt "THIS IS YOUR LAST CHANCE TO DOUBLE CHECK THE README. If everything is ready, enter this PC's desired name to begin."
-Rename-Computer -NewName $pcname -Force
 Write-Output "SUPERCHARGING..."
+Write-Output "If you see a red error here, your PC name is already correct."
+Rename-Computer -NewName $pcname -Force
 
 Write-Output "Preventing Windows Update restarts."
 net stop wuauserv
@@ -36,9 +37,6 @@ powercfg /X hibernate-timeout-dc 0
 
 Write-Output "Disabling SMBv1 to avoid EternalBlue because sadly we are STILL sharing oxygen with people running Windows XP in 2022."
 Set-SmbServerConfiguration -EnableSMB1Protocol $false -Force
-
-Write-Output "Enabling high resolution Safe Mode."
-bcdedit /set {globalsettings} highestmode true > nul 2>&1
 
 Write-Output "Forcing Virtualization and Network Discovery on via DISM."
 DISM /Online /Enable-Feature:Microsoft-Hyper-V-All /Quiet /NoRestart
@@ -1821,32 +1819,15 @@ $apps = @(
   "*Wunderlist*"
   "*XINGAG.XING*"
   "*XING*"
-  "*3D*"
-  "*Alarms*"
-  "*Calculator*"
   "*Calendar*"
-  "*Camera*"
   "*Cortana*"
   "*Groove*"
-  "*Music*"
   "*Mail*"
   "*Outlook*"
-  "*Maps*"
-  "*Solitaire*"
   "*Movies*"
   "*TV*"
-  "*Office*"
-  "*Onenote*"
-  "*Paint*"
-  "*People*"
-  "*Photos*"
-  "*Skype*"
-  "*Sticky*"
-  "*Notes*"
   "*Tips*"
   "*Voice*"
-  "*Recorder*"
-  "*Weather*"
 )
 foreach ($app in $apps) {
   Write-Output "Trying to remove $app"
