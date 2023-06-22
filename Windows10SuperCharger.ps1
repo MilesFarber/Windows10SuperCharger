@@ -47,11 +47,7 @@ Set-NetConnectionProfile -Name "Network" -NetworkCategory Private
 Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server' -name "fDenyTSConnections" -value 0
 Enable-NetFirewallRule -DisplayGroup "Remote Desktop"
 
-Write-Output "Checking if Z drive exists."
-$pathExists = Test-Path -Path "Z:\"
-$pathExists = Test-Path -Path "Z:\" #Declared twice to clear RAM.
-If ($pathExists) {
-Write-Output "Z drive fully armed, commencing user folder redirect. If User REG file already exists, it will be deleted to avoid conflicts with Add-Content. If you see a red error here, ignore it, it means the file already didn't exist."
+Write-Output "Commencing user folder redirect. If User REG file already exists, it will be deleted to avoid conflicts with Add-Content. If you see a red error here, ignore it, it means the file already didn't exist."
 Set-Location C:\Users
 Remove-Item -Path C:\Users\User.reg -Force
 New-item -Path . -Name "User.reg"
@@ -151,10 +147,6 @@ Add-Content C:\Users\User.reg "Windows Registry Editor Version 5.00
 Start-Sleep 1
 Write-Output "Merging."
 Reg import C:\Users\User.reg
-}
-else {
-Write-Output "Z Drive still not found, aborting user folder redirect."
-}
 
 Write-Output "Disabling SSD-unfriendly Paging."
 fsutil behavior set DisableLastAccess 1
