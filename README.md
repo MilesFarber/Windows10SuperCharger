@@ -14,7 +14,7 @@ This script requires Admin, and is not designed for Windows 11. It might still w
 
 1. Lock (WIN + L) and log in again using your **Password**, NOT your **PIN**. This is required to fix SAMBA. This won't be automated for security reasons.
 2. Copy this code: `Invoke-Expression ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/FlarosOverfield/Windows10SuperCharger/trainer/Windows10SuperCharger.ps1'))` 
-3. Press WIN + X, then A, then LEFT, then ENTER, then CTRL + V, then ENTER. 
+3. Press WIN + X, then A, then LEFT, then ENTER, then CTRL + V, then ENTER. (This will open Powershell/Terminal as Admin, confirm UAC, paste the code, and execute it.)
 4. ?????
 5. PROFIT!!!1
 

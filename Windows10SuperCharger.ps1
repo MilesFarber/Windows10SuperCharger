@@ -1844,7 +1844,6 @@ Add-AppXPackage https://github.com/FlarosOverfield/Windows10SuperCharger/raw/tra
 
 Write-Output "Installing useful stuff with Winget."
 $packages = @(
-  "Microsoft.Git"
   "Microsoft.VCRedist.2005.x86"
   "Microsoft.VCRedist.2005.x64"
   "Microsoft.VCRedist.2008.x86"
