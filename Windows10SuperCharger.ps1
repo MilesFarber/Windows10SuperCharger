@@ -14,16 +14,13 @@ else
   Exit
 }
 
-Start-Process https://raw.githubusercontent.com/FlarosOverfield/Windows10SuperCharger/trainer/README.md
+Start-Process https://raw.githubusercontent.com/MilesFarber/Windows10SuperCharger/trainer/README.md
 $pcname = Read-Host -Prompt "THIS IS YOUR LAST CHANCE TO DOUBLE CHECK THE README. If everything is ready, enter this PC's desired name to begin."
 Write-Output "SUPERCHARGING..."
 Write-Output "If you see a red error here, your PC name is already correct."
 Rename-Computer -NewName $pcname -Force
 
-Write-Output "Preventing Windows Update restarts."
-net stop wuauserv
-
-Write-Output "Preventing Sleep and Hibernation."
+Write-Output "Preventing Windows Update Restarts, Sleep, and Hibernation."
 powercfg /S 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c
 powercfg /setdcvalueindex SCHEME_CURRENT SUB_ENERGYSAVER ESBATTTHRESHOLD 99
 powercfg /X monitor-timeout-ac 0
@@ -34,22 +31,24 @@ powercfg /X standby-timeout-ac 0
 powercfg /X standby-timeout-dc 0
 powercfg /X hibernate-timeout-ac 0
 powercfg /X hibernate-timeout-dc 0
+powercfg /h off
+net stop wuauserv
+
+Write-Output "Disabling SSD-unfriendly Paging."
+fsutil behavior set DisableLastAccess 1
+fsutil behavior set EncryptPagingFile 0
 
 Write-Output "Disabling SMBv1 to avoid EternalBlue because sadly we are STILL sharing oxygen with people running Windows XP in 2022."
 Set-SmbServerConfiguration -EnableSMB1Protocol $false -Force
-
-Write-Output "Forcing Virtualization and Network Discovery on via DISM."
-DISM /Online /Enable-Feature:Microsoft-Hyper-V-All /Quiet /NoRestart
-DISM /Online /Enable-Feature /FeatureName:SmbDirect /NoRestart
 
 Write-Output "Setting Ethernet connections to Private and enabling Remote Desktop. This is required to fix SAMBA. If you see a red error here, you're on WiFi, and will need to enable Private manually."
 Set-NetConnectionProfile -Name "Network" -NetworkCategory Private
 Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server' -name "fDenyTSConnections" -value 0
 Enable-NetFirewallRule -DisplayGroup "Remote Desktop"
 
-Write-Output "Commencing user folder redirect. If User REG file already exists, it will be deleted to avoid conflicts with Add-Content. If you see a red error here, ignore it, it means the file already didn't exist."
+Write-Output "Commencing user folder redirect. If User REG file already exists, it will be deleted to avoid conflicts with Add-Content."
 Set-Location C:\Users
-Remove-Item -Path C:\Users\User.reg -Force
+Remove-Item -Path C:\Users\User.reg -Force -ErrorAction SilentlyContinue
 New-item -Path . -Name "User.reg"
 Write-Output "Printing REG File. This Script will use Add-Content to a REG file in the user folder instead of using New-Item, because it makes it way easier for new users to review what changed, by opening the REG file in the user folder."
 Add-Content C:\Users\User.reg "Windows Registry Editor Version 5.00
@@ -116,7 +115,7 @@ Add-Content C:\Users\User.reg "Windows Registry Editor Version 5.00
 ""{374DE290-123F-4565-9164-39C4925E467B}""=hex(2):5a,00,3a,00,5c,00,44,00,6f,00,\
   63,00,75,00,6d,00,65,00,6e,00,74,00,73,00,5c,00,44,00,6f,00,77,00,6e,00,6c,\
   00,6f,00,61,00,64,00,73,00,00,00
-;Downloads, uh, again
+;Downloads, um, again
 ""{7D83EE9B-2244-4E70-B1F5-5393042AF1E4}""=hex(2):5a,00,3a,00,5c,00,44,00,6f,00,\
   63,00,75,00,6d,00,65,00,6e,00,74,00,73,00,5c,00,44,00,6f,00,77,00,6e,00,6c,\
   00,6f,00,61,00,64,00,73,00,00,00
@@ -148,13 +147,9 @@ Start-Sleep 1
 Write-Output "Merging."
 Reg import C:\Users\User.reg
 
-Write-Output "Disabling SSD-unfriendly Paging."
-fsutil behavior set DisableLastAccess 1
-fsutil behavior set EncryptPagingFile 0
-
-Write-Output "If Temp REG file already exists, it will be deleted to avoid conflicts with Add-Content. If you see a red error here, ignore it, it means the file already didn't exist."
+Write-Output "If Temp REG file already exists, it will be deleted to avoid conflicts with Add-Content."
 Set-Location C:\Users
-Remove-Item -Path C:\Users\Temp.reg -Force
+Remove-Item -Path C:\Users\Temp.reg -Force -ErrorAction SilentlyContinue
 New-item -Path . -Name "Temp.reg"
 Write-Output "Printing REG File. This Script will use Add-Content to a REG file in the user folder instead of using New-Item, because it makes it way easier for new users to review what changed, by opening the REG file in the user folder."
 Add-Content C:\Users\Temp.reg "Windows Registry Editor Version 5.00
@@ -709,6 +704,13 @@ Add-Content C:\Users\Temp.reg "Windows Registry Editor Version 5.00
 ""AllowClipboardHistory""=-
 ""AllowCrossDeviceClipboard""=-
 
+;Prevent SVCHosts from multiplying like Eevee.
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control]
+""SvcHostSplitThresholdInKB""=dword:04000000
+""WaitToKillServiceTimeout""=""1000""
+""HungAppTimeout""=""1000""
+""AutoEndTasks""=""1""
+
 ;Force enable battery time estimation.
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Power]
 ""EnergyEstimationEnabled""=dword:00000001
@@ -727,12 +729,10 @@ Add-Content C:\Users\Temp.reg "Windows Registry Editor Version 5.00
 ""Active""=dword:00000000
 ""FilterType""=dword:00000001
 
-;Prevent SVCHosts from multiplying like Eevee.
-[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control]
-""SvcHostSplitThresholdInKB""=dword:04000000
-""WaitToKillServiceTimeout""=""1000""
-""HungAppTimeout""=""1000""
-""AutoEndTasks""=""1""
+;Applying Miles's Touchscreen Responsiveness Fix. This is the fastest possible preset without negatively affecting jitter and battery life.
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\TouchPrediction]
+""Latency""=dword:00000004
+""SampleTime""=dword:00000004
 
 ;MINOR TWEAKS
 
@@ -1733,106 +1733,71 @@ Start-Sleep 1
 Write-Output "Merging."
 Reg import C:\Users\Temp.reg
 
-Write-Output "Uninstalling ads. You can reinstall these later through the Microsoft Store, Winget, or Chocolatey."
-$apps = @(
-  "*2FE3CB00.PicsArt-PhotoStudio*"
-  "*46928bounde.EclipseManager*"
-  "*4DF9E0F8.Netflix*"
-  "*613EBCEA.PolarrPhotoEditorAcademicEdition*"
-  "*7EE7776C.LinkedInforWindows*"
-  "*89006A2E.AutodeskSketchBook*"
-  "*9E2F88E3.Twitter*"
-  "*A278AB0D.DisneyMagicKingdoms*"
-  "*A278AB0D.MarchofEmpires*"
-  "*ActiproSoftwareLLC*"
-  "*ActiproSoftwareLLC.562882FEEB491*"
-  "*Adobe*"
-  "*AdobeSystemsIncorporated.AdobePhotoshopExpress*"
-  "*CAF9E577.Plex*"
-  "*CandyCrush*"
-  "*ClearChannel*"
-  "*ClearChannelRadioDigital.iHeartRadio*"
-  "*CountryEscape*"
-  "*D52A8D61.FarmVille2CountryEscape*"
-  "*CyberLink*"
-  "*DB6EA5DB.CyberLinkMediaSuiteEssentials*"
-  "*Disney*"
-  "*Dolby*"
-  "*DolbyLaboratories.DolbyAccess*"
-  "*Drawboard*"
-  "*Drawboard.DrawboardPDF*"
-  "*Duolingo*"
-  "*Duolingo-LearnLanguagesforFree*"
-  "*Eclipse*"
-  "*EclipseManager*"
-  "*Facebook*"
-  "*Facebook.Facebook*"
-  "*Fitbit*"
-  "*Fitbit.FitbitCoach*"
-  "*Flare*"
-  "*FlaregamesGmbH.RoyalRevolt2*"
-  "*Flipboard*"
-  "*Flipboard.Flipboard*"
-  "*GAMELOFT*"
-  "*GAMELOFTSA.Asphalt8Airborne*"
-  "*Keeper*"
-  "*KeeperSecurityInc.Keeper*"
-  "*King*"
-  "*King.com.BubbleWitch3Saga*"
-  "*King.com.CandyCrushSaga*"
-  "*King.com.CandyCrushSodaSaga*"
-  "*King.com.FarmHeroesSaga*"
-  "*King.com.CandyCrushFriends*"
-  "*Minecraft*"
-  "*NORDCURRENT*"
-  "*NORDCURRENT.COOKINGFEVER*"
-  "*Pandora*"
-  "*PandoraMediaInc.29680B314EFC2*"
-  "*Playtika*"
-  "*Playtika.CaesarsSlotsFreeCasino*"
-  "*Royal*"
-  "*Shazam*"
-  "*ShazamEntertainmentLtd.Shazam*"
-  "*Sling*"
-  "*SlingTVLLC.SlingTV*"
-  "*Spotify*"
-  "*SpotifyAB.SpotifyMusic*"
-  "*Sway*"
-  "*TheNewYorkTimes*"
-  "*TheNewYorkTimes.NYTCrossword*"
-  "*Thumbmunkeys*"
-  "*ThumbmunkeysLtd.PhototasticCollage*"
-  "*TuneIn*"
-  "*TuneIn.TuneInRadio*"
-  "*Twitter*"
-  "*WinZip*"
-  "*WinZipComputing.WinZipUniversal*"
-  "*Wunderkinder.Wunderlist*"
-  "*Wunderlist*"
-  "*XINGAG.XING*"
-  "*XING*"
-  "*Calendar*"
-  "*Cortana*"
-  "*Groove*"
-  "*Mail*"
-  "*Outlook*"
-  "*Movies*"
-  "*TV*"
-  "*Tips*"
-  "*Voice*"
+Write-Output "Wiping junk folders, pass 1."
+$junks = @(
+  "C:\Windows\Temp\"
+  "C:\OneDriveTemp\"
+  "C:\PerfLogs\"
+  "C:\Temp\"
 )
-foreach ($app in $apps) {
-  Write-Output "Trying to remove $app"
-  Get-AppxPackage -Name $app -AllUsers | Remove-AppxPackage -AllUsers
-  Get-AppXProvisionedPackage -Online |
-  Where-Object DisplayName -EQ $app |
-  Remove-AppxProvisionedPackage -Online
+foreach ($junk in $junks) {
+  Write-Output "Trying to remove $junk"
+  Remove-Item "$junk" -Recurse -Force -ErrorAction SilentlyContinue
+}
+cleanmgr /sagerun:1 | out-Null
+
+Write-Output "Uninstalling ads. You can reinstall these later through the Microsoft Store, Nuget, or Winget."
+Get-AppxPackage -AllUsers | where-object {$_.name –notlike "*store*" -and $_.name –notlike "*installer*" -and $_.name –notlike "*winget*"} | Remove-AppxPackage -ErrorAction SilentlyContinue
+
+Write-Output "Forcing optional features on via DISM."
+$features = @(
+    "AppServerClient"
+    "Client-ProjFS"
+    "ClientForNFS-Infrastructure"
+    "Containers"
+    "Containers-DisposableClientVM"
+    "DirectPlay"
+    "HostGuardian"
+    "HypervisorPlatform"
+    "Internet-Explorer-Optional-amd64"
+    "LegacyComponents"
+    "MediaPlayback"
+    "Microsoft-Hyper-V"
+    "Microsoft-Hyper-V-All"
+    "Microsoft-Hyper-V-Hypervisor"
+    "Microsoft-Hyper-V-Management-Clients"
+    "Microsoft-Hyper-V-Management-PowerShell"
+    "Microsoft-Hyper-V-Services"
+    "Microsoft-Hyper-V-Tools-All"
+    "Microsoft-Windows-Subsystem-Linux"
+    "MicrosoftWindowsPowerShellV2"
+    "MicrosoftWindowsPowerShellV2Root"
+    "MSRDC-Infrastructure"
+    "NetFX3"
+    "NetFx4Extended-ASPNET45"
+    "NFS-Administration"
+    "Printing-Foundation-Features"
+    "Printing-Foundation-InternetPrinting-Client"
+    "Printing-Foundation-LPDPrintService"
+    "Printing-Foundation-LPRPortMonitor"
+    "Printing-PrintToPDFServices-Features"
+    "SearchEngine-Client-Package"
+    "ServicesForNFS-ClientOnly"
+    "SmbDirect"
+    "VirtualMachinePlatform"
+    "Windows-Defender-ApplicationGuard"
+    "Windows-Defender-Default-Definitions"
+    "WindowsMediaPlayer"
+    "WorkFolders-Client"
+)
+foreach ($feature in $features) {
+  Write-Output "Trying to enable $feature"
+  DISM /Online /Enable-Feature /FeatureName:$feature /All /Quiet /NoRestart
 }
 
-Write-Output "Installing Winget. If you see red errors here, you're fucked. Windows10SuperCharger is currently the only github repository in existence that is storing MicrosoftVCLibs and MicrosoftUIXaml as downloadable AppX packages. Red errors here means that that repository has been taken down, and you will have to manually install App Installer from the Microsoft Store. There is absolutely no other way to do this."
-Add-AppXPackage https://github.com/FlarosOverfield/Windows10SuperCharger/raw/trainer/Winget/Microsoft.VCLibs.140.00.UWPDesktop_8wekyb3d8bbwe.Appx
-Add-AppXPackage https://github.com/FlarosOverfield/Windows10SuperCharger/raw/trainer/Winget/Microsoft.UI.Xaml.2.7_8wekyb3d8bbwe.Appx
-Add-AppXPackage https://github.com/FlarosOverfield/Windows10SuperCharger/raw/trainer/Winget/Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle
+Write-Output "Installing NuGet and WinGet. If you see red errors here, you're fucked. You will have to download it from the Microsoft Store. There is absolutely no other way to do this, since Github now blocks all Powershell clients from automatically downloading certain filetypes, such as MSIXBundles."
+Install-PackageProvider -Name NuGet -Force
+Install-Module -Name Microsoft.WinGet.Client -Force
 
 Write-Output "Installing useful stuff with Winget."
 $packages = @(
@@ -1858,41 +1823,17 @@ foreach ($package in $packages) {
   winget install $package -h -e -s winget
 }
 
-Write-Output "Eating Chocolate. Mmmmmh."
-Invoke-Expression ((new-object net.webclient).DownloadString('https://chocolatey.org/install.ps1'))
-choco feature enable -n allowGlobalConfirmation
-choco upgrade chocolatey
-$chocos = @(
-  "chocolatey-core.extension"
-  "chocolatey-compatibility.extension"
-  "chocolatey-windowsupdate.extension"
-  "chocolatey-visualstudio.extension"
-  "chocolatey-dotnetfx.extension"
-  "dotnetfx"
-  "dotnetcore"
-  "dotnetcore3-desktop-runtime"
-)
-foreach ($choco in $chocos) {
-  Write-Output "Trying to install $choco"
-  choco install $choco -y
-}
-
-Write-Output "Wiping junk folders."
-cleanmgr /sagerun:1 | out-Null
-$junks = @(
-  "C:\Windows\Temp\"
-  "C:\OneDriveTemp\"
-  "C:\PerfLogs\"
-)
+Write-Output "Wiping junk folders, pass 2."
 foreach ($junk in $junks) {
   Write-Output "Trying to remove $junk"
   Remove-Item "$junk" -Recurse -Force -ErrorAction SilentlyContinue
 }
+cleanmgr /sagerun:1 | out-Null
 
 Write-Output "Rebooting Explorer.exe. TaskKill will be used instead of Stop-Process due to permission issues."
 taskkill /F /IM explorer.exe
 Start-Process "explorer.exe"
 
-Start-Process https://raw.githubusercontent.com/FlarosOverfield/Windows10SuperCharger/trainer/LICENSE
-Write-Output "All tasks completed! Feel free to close this window."
+Start-Process https://raw.githubusercontent.com/MilesFarber/Windows10SuperCharger/trainer/LICENSE
+Write-Output "All tasks completed! Feel free to close this window, or wait 12 hours to automatically restart the system."
 timeout /t 43210 /nobreak
