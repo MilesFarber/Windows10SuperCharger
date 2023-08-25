@@ -104,6 +104,10 @@ Set-NetConnectionProfile -Name "Network" -NetworkCategory Private
 Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server' -name "fDenyTSConnections" -value 0
 Enable-NetFirewallRule -DisplayGroup "Remote Desktop"
 
+Write-Output "Merging Registry Keys. Check the Z.Reg file in the repository for a description of what each payload does."
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/MilesFarber/Windows10SuperCharger/trainer/Z.reg" -OutFile "Z.reg"
+reg import Z.reg
+
 Write-Output "Uninstalling ads. You can reinstall any of these quickly through the Microsoft Store, Nuget, or Winget."
 Get-AppxPackage -AllUsers | where-object {$_.name –notlike "*store*"} | Remove-AppxPackage -ErrorAction SilentlyContinue
 
