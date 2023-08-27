@@ -79,15 +79,19 @@ $features = @(
     "WindowsMediaPlayer"
 )
 
-Start-Process https://raw.githubusercontent.com/MilesFarber/Windows10SuperCharger/trainer/README.md
-$pcname = Read-Host -Prompt "THIS IS YOUR LAST CHANCE TO DOUBLE CHECK THE README. If everything is ready, enter this PC's desired name to begin."
-Write-Output "SUPERCHARGING..."
-Write-Output "If you see a red error here, your PC name is already correct."
-Rename-Computer -NewName $pcname -Force
+if ($env:computerName.contains("DESKTOP")) {
+	Start-Process https://raw.githubusercontent.com/MilesFarber/Windows10SuperCharger/trainer/README.md
+	$pcname = Read-Host -Prompt "THIS IS YOUR LAST CHANCE TO DOUBLE CHECK THE README. If everything is ready, enter this PC's desired name to begin."
+	Write-Output "SUPERCHARGING..."
+	Write-Output "If you see a red error here, your PC name is already correct."
+	Rename-Computer -NewName $pcname -Force
+} else {
+	Write-Host "The computer name does not contain 'DESKTOP', so it's already been renamed. The script will execute automatically without user input."
+}
 
-Write-Output "Fixing Power Plan and disabling Hibernation and Windows Update service"
+Write-Output "Fixing Power Plan and disabling Hibernation and preventing Windows Update service from kicking my ass."
 powercfg /S 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c
-powercfg /setdcvalueindex SCHEME_CURRENT SUB_ENERGYSAVER ESBATTTHRESHOLD 99
+powercfg /setdcvalueindex SCHEME_CURRENT SUB_ENERGYSAVER ESBATTTHRESHOLD 100
 powercfg /h off
 net stop wuauserv
 
@@ -99,12 +103,16 @@ foreach ($sleeper in $sleepers) {
 Write-Output "Disabling SMBv1 to avoid EternalBlue because unfortunately we are STILL sharing oxygen with people running Windows XP in 2022."
 Set-SmbServerConfiguration -EnableSMB1Protocol $false -Force
 
-Write-Output "Setting Ethernet connections to Private and enabling Remote Desktop. This is required to fix SAMBA. If you see a red error here, you're on WiFi, and you will need to enable Private manually."
-Set-NetConnectionProfile -Name "Network" -NetworkCategory Private
+Write-Output "Setting Ethernet connections to Private and enabling Remote Desktop and File Sharing. This is required to fix SMB. If you see a red error here, your network is too sus and will be kept Public to avoid tracking."
+Get-NetConnectionProfile | ForEach-Object {
+	Set-NetConnectionProfile -InterfaceIndex $_.InterfaceIndex -NetworkCategory Private
+	Set-NetConnectionProfile -Name "Network" -NetworkCategory Private
+}
 Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server' -name "fDenyTSConnections" -value 0
+Get-NetFirewallRule -DisplayGroup 'Network Discovery' | Set-NetFirewallRule -Profile 'Private, Domain' -Enabled true
 Enable-NetFirewallRule -DisplayGroup "Remote Desktop"
 
-Write-Output "Merging Registry Keys. Check the Z.Reg file in the repository for a description of what each payload does."
+Write-Output "Merging Registry Keys. Check the Z.Reg file in the GitHub repository for a description of what each payload does."
 Invoke-WebRequest -Uri "https://raw.githubusercontent.com/MilesFarber/Windows10SuperCharger/trainer/Z.reg" -OutFile "Z.reg"
 reg import Z.reg
 
@@ -121,11 +129,11 @@ cleanmgr /sagerun:1 | out-Null
 Write-Output "Installing NuGet and WinGet. If you see red errors here, you're fucked. WingetBackup is the only repository in existence that is currently storing a WORKING Winget package OUTSIDE of the Microsoft Store. You will have to download it from the Microsoft Store. There is absolutely no other way to do this, since Github now blocks all Powershell clients from automatically downloading certain filetypes, such as MSIXBundles."
 Install-PackageProvider -Name NuGet -Force
 Install-Module -Name Microsoft.WinGet.Client -Force
-Write-Output "Attempting Order 1."
+Write-Output "Order 1."
 Add-AppxPackage -Path https://github.com/MilesFarber/WingetBackup/raw/trainer/Microsoft.VCLibs.140.00.UWPDesktop_8wekyb3d8bbwe.Appx
 Add-AppxPackage -Path https://github.com/MilesFarber/WingetBackup/raw/trainer/Microsoft.UI.Xaml.2.7_8wekyb3d8bbwe.Appx
 Add-AppxPackage -Path https://github.com/MilesFarber/WingetBackup/raw/trainer/Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle
-Write-Output "Attempting Order 2."
+Write-Output "Order 2."
 Add-AppxPackage -Path https://github.com/MilesFarber/WingetBackup/raw/trainer/Microsoft.UI.Xaml.2.7_8wekyb3d8bbwe.Appx
 Add-AppxPackage -Path https://github.com/MilesFarber/WingetBackup/raw/trainer/Microsoft.VCLibs.140.00.UWPDesktop_8wekyb3d8bbwe.Appx
 Add-AppxPackage -Path https://github.com/MilesFarber/WingetBackup/raw/trainer/Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle
@@ -133,12 +141,22 @@ Add-AppxPackage -Path https://github.com/MilesFarber/WingetBackup/raw/trainer/Mi
 
 Write-Output "Installing useful stuff with Winget and DISM."
 foreach ($package in $packages) {
-  Write-Output "Trying to install $package"
-  winget install $package -h -e -s winget
+	$output = winget list $package | Out-String
+	if ($output -match "No installed package found matching input criteria.") {
+		Write-Output "$package is not installed. Attempting installation."
+		winget install $package -h -e -s winget
+	} else {
+		Write-Output "$package is already installed."
+	}
 }
 foreach ($feature in $features) {
-  Write-Output "Trying to enable $feature"
-  DISM /Online /Enable-Feature /FeatureName:$feature /All /Quiet /NoRestart
+	$featureState = (Get-WindowsOptionalFeature -Online -FeatureName $feature).State
+	if ($featureState -eq 'Enabled') {
+		Write-Output "$feature is already enabled."
+	} else {
+		Write-Output "Trying to enable $feature"
+		DISM /Online /Enable-Feature /FeatureName:$feature /All /Quiet /NoRestart
+	}
 }
 
 Write-Output "Wiping junk folders, pass 2."
