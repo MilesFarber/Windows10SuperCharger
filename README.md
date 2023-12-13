@@ -1,8 +1,8 @@
-# Welcome to Miles Farber's Windows 10 Super Charger
+# WARNING: THIS IS NOW DEPRECATED FOR PUBLIC USE. USE https://github.com/undergroundwires/privacy.sexy OR https://github.com/builtbybel/privatezilla INSTEAD TO CREATE YOUR VERY OWN SCRIPT. YOU CAN STILL USE THIS SCRIPT, BUT IT MIGHT HAVE SETTINGS THAT NO ONE WANTS EXCEPT ME. DESCRIPTION BELOW.
 
-## WARNING!
 
-Starting from September 2023, Windows 10 AND Windows 11 will automatically try to revert changes in the registry to default. This is because the average Windows user is braindead and installs ''debloat'' scripts on Github created by room temperature IQ individuals ~~coughcoughSycnexcoughcoughXyuetacoughcough~~ that remove important functionality that power users (and Windows itself) actually need, making the system a lot more unstable than it should be. This is a good thing, because many users who don't use debloat scripts at all will also damage their registry by installing malware such as Adobe Creative Cloud. But on the other hand, GOOD debloat scripts like this one will need to be assigned to Task Scheduler at each reboot in order to work properly.
+
+## Starting from September 2023, Windows 10 AND Windows 11 will automatically try to revert changes in the registry to default. This is because the average Windows user is braindead and installs ''debloat'' scripts on Github created by room temperature IQ individuals ~~coughcoughSycnexcoughcoughXyuetacoughcough~~ that remove important functionality that power users (and Windows itself) actually need, making the system a lot more unstable than it should be. This is a good thing, because many users who don't use debloat scripts at all will also damage their registry by installing malware such as Adobe Creative Cloud. But on the other hand, GOOD debloat scripts like this one will need to be assigned to Task Scheduler at each reboot in order to work properly.
 
 ### Description
 
