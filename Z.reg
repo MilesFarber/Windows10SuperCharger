@@ -100,69 +100,60 @@ Windows Registry Editor Version 5.00
 "AlwaysOn"=dword:00000001
 "NetworkThrottlingIndex"=dword:ffffffff
 "SystemResponsiveness"=dword:00000000
-"NoLazyMode"=dword:00000001
 [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile\Tasks\Capture]
-"Affinity"=dword:00000007
 "Background Only"="True"
-"Clock Rate"=dword:00002710
-"GPU Priority"=dword:00000004
-"Priority"=dword:00000004
+"Clock Rate"=dword:7FFFFFFF
+"GPU Priority"=dword:00000008
+"Priority"=dword:00000006
 "Scheduling Category"="Low"
 "SFIO Priority"="Low"
 [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile\Tasks\DisplayPostProcessing]
-"Affinity"=dword:00000000
 "Background Only"="False"
-"Clock Rate"=dword:00002710
+"Clock Rate"=dword:7FFFFFFF
 "GPU Priority"=dword:00000008
-"Priority"=dword:00000008
+"Priority"=dword:00000006
 "Scheduling Category"="High"
 "SFIO Priority"="High"
 [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile\Tasks\Distribution]
-"Affinity"=dword:00000007
 "Background Only"="True"
-"Clock Rate"=dword:00002710
-"GPU Priority"=dword:00000004
-"Priority"=dword:00000004
+"Clock Rate"=dword:7FFFFFFF
+"GPU Priority"=dword:00000008
+"Priority"=dword:00000006
 "Scheduling Category"="Low"
 "SFIO Priority"="Low"
 [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile\Tasks\Games]
-"Affinity"=dword:00000000
 "Background Only"="False"
-"Clock Rate"=dword:00002710
+"Clock Rate"=dword:7FFFFFFF
 "GPU Priority"=dword:00000008
-"Priority"=dword:00000008
+"Priority"=dword:00000006
 "Scheduling Category"="High"
 "SFIO Priority"="High"
 [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile\Tasks\Playback]
-"Affinity"=dword:00000007
 "Background Only"="True"
-"Clock Rate"=dword:00002710
-"GPU Priority"=dword:00000004
-"Priority"=dword:00000004
+"Clock Rate"=dword:7FFFFFFF
+"GPU Priority"=dword:00000008
+"Priority"=dword:00000006
 "Scheduling Category"="Low"
 "SFIO Priority"="Low"
 [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile\Tasks\Pro Audio]
-"Affinity"=dword:00000000
 "Background Only"="False"
-"Clock Rate"=dword:00002710
+"Clock Rate"=dword:7FFFFFFF
 "GPU Priority"=dword:00000008
-"Priority"=dword:00000008
+"Priority"=dword:00000006
 "Scheduling Category"="High"
 "SFIO Priority"="High"
 [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile\Tasks\Window Manager]
-"Affinity"=dword:00000007
 "Background Only"="True"
-"Clock Rate"=dword:00002710
-"GPU Priority"=dword:00000004
-"Priority"=dword:00000004
+"Clock Rate"=dword:7FFFFFFF
+"GPU Priority"=dword:00000008
+"Priority"=dword:00000006
 "Scheduling Category"="Low"
 "SFIO Priority"="Low"
 [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile\Tasks\Audio]
-"Affinity"=dword:00000000
 "Background Only"="False"
-"Clock Rate"=dword:00002710
+"Clock Rate"=dword:7FFFFFFF
 "GPU Priority"=dword:00000008
-"Priority"=dword:00000008
+"Priority"=dword:00000006
 "Scheduling Category"="High"
 "SFIO Priority"="High"
 
@@ -175,8 +166,8 @@ Windows Registry Editor Version 5.00
 "DisallowShaking"=dword:00000001
 "DontPrettyPath"=dword:00000001
 "EncryptionContextMenu"=dword:00000001
-"EnableTaskGroups"=dword:00000000
-"Filter"=dword:00000000
+"EnableTaskGroups"=dword:00000001
+"Filter"=dword:00000001
 "Hidden"=dword:00000001
 "HideDrivesWithNoMedia"=dword:00000000
 "HideFileExt"=dword:00000000
@@ -186,15 +177,15 @@ Windows Registry Editor Version 5.00
 "LaunchTo"=dword:00000001
 "ListviewAlphaSelect"=dword:00000001
 "ListviewShadow"=dword:00000001
-"MapNetDrvBtn"=dword:00000000
+"MapNetDrvBtn"=dword:00000001
 "MultiTaskingAltTabFilter"=dword:00000000
-"NavPaneExpandToCurrentFolder"=dword:00000001
-"NavPaneShowAllCloudStates"=dword:00000001
+"NavPaneExpandToCurrentFolder"=dword:00000000
+"NavPaneShowAllCloudStates"=dword:00000000
 "NavPaneShowAllFolders"=dword:00000000
 "PersistBrowsers"=dword:00000001
 "ReindexedProfile"=dword:00000001
-"SeparateProcess"=dword:00000000
-"ServerAdminUI"=dword:00000000
+"SeparateProcess"=dword:00000001
+"ServerAdminUI"=dword:00000001
 "ShellViewReentered"=dword:00000001
 "ShowCompColor"=dword:00000001
 "ShowCortanaButton"=dword:00000001
@@ -211,208 +202,33 @@ Windows Registry Editor Version 5.00
 "TaskbarAnimations"=dword:00000001
 "TaskbarGlomLevel"=dword:00000001
 "TaskbarMigratedBrowserPin"=dword:00000001
-"TaskbarSd"=dword:00000000
+"TaskbarSd"=dword:00000001
 "TaskbarSizeMove"=dword:00000001
 "TaskbarSmallIcons"=dword:00000001
-"TypeAhead"=dword:00000000
+"TypeAhead"=dword:00000001
 "WebView"=dword:00000001
-
-;Fix 3D Paint Associations
-[HKEY_CLASSES_ROOT\SystemFileAssociations\.3mf\Shell\3D Edit]
-@="@%SystemRoot%\\system32\\mspaint.exe,-59500"
-"Extended"=-
-[HKEY_CLASSES_ROOT\SystemFileAssociations\.3mf\Shell\3D Edit\command]
-@=hex(2):25,00,53,00,79,00,73,00,74,00,65,00,6d,00,52,00,6f,00,6f,00,74,00,25,\
-  00,5c,00,73,00,79,00,73,00,74,00,65,00,6d,00,33,00,32,00,5c,00,6d,00,73,00,\
-  70,00,61,00,69,00,6e,00,74,00,2e,00,65,00,78,00,65,00,20,00,22,00,25,00,31,\
-  00,22,00,20,00,2f,00,46,00,6f,00,72,00,63,00,65,00,42,00,6f,00,6f,00,74,00,\
-  73,00,74,00,72,00,61,00,70,00,50,00,61,00,69,00,6e,00,74,00,33,00,44,00,00,\
-  00
-[HKEY_CLASSES_ROOT\SystemFileAssociations\.bmp\Shell\3D Edit]
-@="@%SystemRoot%\\system32\\mspaint.exe,-59500"
-"Extended"=-
-[HKEY_CLASSES_ROOT\SystemFileAssociations\.bmp\Shell\3D Edit\command]
-@=hex(2):25,00,53,00,79,00,73,00,74,00,65,00,6d,00,52,00,6f,00,6f,00,74,00,25,\
-  00,5c,00,73,00,79,00,73,00,74,00,65,00,6d,00,33,00,32,00,5c,00,6d,00,73,00,\
-  70,00,61,00,69,00,6e,00,74,00,2e,00,65,00,78,00,65,00,20,00,22,00,25,00,31,\
-  00,22,00,20,00,2f,00,46,00,6f,00,72,00,63,00,65,00,42,00,6f,00,6f,00,74,00,\
-  73,00,74,00,72,00,61,00,70,00,50,00,61,00,69,00,6e,00,74,00,33,00,44,00,00,\
-  00
-[HKEY_CLASSES_ROOT\SystemFileAssociations\.fbx\Shell\3D Edit]
-@="@%SystemRoot%\\system32\\mspaint.exe,-59500"
-"Extended"=-
-[HKEY_CLASSES_ROOT\SystemFileAssociations\.fbx\Shell\3D Edit\command]
-@=hex(2):25,00,53,00,79,00,73,00,74,00,65,00,6d,00,52,00,6f,00,6f,00,74,00,25,\
-  00,5c,00,73,00,79,00,73,00,74,00,65,00,6d,00,33,00,32,00,5c,00,6d,00,73,00,\
-  70,00,61,00,69,00,6e,00,74,00,2e,00,65,00,78,00,65,00,20,00,22,00,25,00,31,\
-  00,22,00,20,00,2f,00,46,00,6f,00,72,00,63,00,65,00,42,00,6f,00,6f,00,74,00,\
-  73,00,74,00,72,00,61,00,70,00,50,00,61,00,69,00,6e,00,74,00,33,00,44,00,00,\
-  00
-[HKEY_CLASSES_ROOT\SystemFileAssociations\.gif\Shell\3D Edit]
-@="@%SystemRoot%\\system32\\mspaint.exe,-59500"
-"Extended"=-
-[HKEY_CLASSES_ROOT\SystemFileAssociations\.gif\Shell\3D Edit\command]
-@=hex(2):25,00,53,00,79,00,73,00,74,00,65,00,6d,00,52,00,6f,00,6f,00,74,00,25,\
-  00,5c,00,73,00,79,00,73,00,74,00,65,00,6d,00,33,00,32,00,5c,00,6d,00,73,00,\
-  70,00,61,00,69,00,6e,00,74,00,2e,00,65,00,78,00,65,00,20,00,22,00,25,00,31,\
-  00,22,00,20,00,2f,00,46,00,6f,00,72,00,63,00,65,00,42,00,6f,00,6f,00,74,00,\
-  73,00,74,00,72,00,61,00,70,00,50,00,61,00,69,00,6e,00,74,00,33,00,44,00,00,\
-  00
-[HKEY_CLASSES_ROOT\SystemFileAssociations\.jfif\Shell\3D Edit]
-@="@%SystemRoot%\\system32\\mspaint.exe,-59500"
-"Extended"=-
-[HKEY_CLASSES_ROOT\SystemFileAssociations\.jfif\Shell\3D Edit\command]
-@=hex(2):25,00,53,00,79,00,73,00,74,00,65,00,6d,00,52,00,6f,00,6f,00,74,00,25,\
-  00,5c,00,73,00,79,00,73,00,74,00,65,00,6d,00,33,00,32,00,5c,00,6d,00,73,00,\
-  70,00,61,00,69,00,6e,00,74,00,2e,00,65,00,78,00,65,00,20,00,22,00,25,00,31,\
-  00,22,00,20,00,2f,00,46,00,6f,00,72,00,63,00,65,00,42,00,6f,00,6f,00,74,00,\
-  73,00,74,00,72,00,61,00,70,00,50,00,61,00,69,00,6e,00,74,00,33,00,44,00,00,\
-  00
-[HKEY_CLASSES_ROOT\SystemFileAssociations\.jpe\Shell\3D Edit]
-@="@%SystemRoot%\\system32\\mspaint.exe,-59500"
-"Extended"=-
-[HKEY_CLASSES_ROOT\SystemFileAssociations\.jpe\Shell\3D Edit\command]
-@=hex(2):25,00,53,00,79,00,73,00,74,00,65,00,6d,00,52,00,6f,00,6f,00,74,00,25,\
-  00,5c,00,73,00,79,00,73,00,74,00,65,00,6d,00,33,00,32,00,5c,00,6d,00,73,00,\
-  70,00,61,00,69,00,6e,00,74,00,2e,00,65,00,78,00,65,00,20,00,22,00,25,00,31,\
-  00,22,00,20,00,2f,00,46,00,6f,00,72,00,63,00,65,00,42,00,6f,00,6f,00,74,00,\
-  73,00,74,00,72,00,61,00,70,00,50,00,61,00,69,00,6e,00,74,00,33,00,44,00,00,\
-  00
-[HKEY_CLASSES_ROOT\SystemFileAssociations\.jpeg\Shell\3D Edit]
-@="@%SystemRoot%\\system32\\mspaint.exe,-59500"
-"Extended"=-
-[HKEY_CLASSES_ROOT\SystemFileAssociations\.jpeg\Shell\3D Edit\command]
-@=hex(2):25,00,53,00,79,00,73,00,74,00,65,00,6d,00,52,00,6f,00,6f,00,74,00,25,\
-  00,5c,00,73,00,79,00,73,00,74,00,65,00,6d,00,33,00,32,00,5c,00,6d,00,73,00,\
-  70,00,61,00,69,00,6e,00,74,00,2e,00,65,00,78,00,65,00,20,00,22,00,25,00,31,\
-  00,22,00,20,00,2f,00,46,00,6f,00,72,00,63,00,65,00,42,00,6f,00,6f,00,74,00,\
-  73,00,74,00,72,00,61,00,70,00,50,00,61,00,69,00,6e,00,74,00,33,00,44,00,00,\
-  00
-[HKEY_CLASSES_ROOT\SystemFileAssociations\.jpg\Shell\3D Edit]
-@="@%SystemRoot%\\system32\\mspaint.exe,-59500"
-"Extended"=-
-[HKEY_CLASSES_ROOT\SystemFileAssociations\.jpg\Shell\3D Edit\command]
-@=hex(2):25,00,53,00,79,00,73,00,74,00,65,00,6d,00,52,00,6f,00,6f,00,74,00,25,\
-  00,5c,00,73,00,79,00,73,00,74,00,65,00,6d,00,33,00,32,00,5c,00,6d,00,73,00,\
-  70,00,61,00,69,00,6e,00,74,00,2e,00,65,00,78,00,65,00,20,00,22,00,25,00,31,\
-  00,22,00,20,00,2f,00,46,00,6f,00,72,00,63,00,65,00,42,00,6f,00,6f,00,74,00,\
-  73,00,74,00,72,00,61,00,70,00,50,00,61,00,69,00,6e,00,74,00,33,00,44,00,00,\
-  00
-[HKEY_CLASSES_ROOT\SystemFileAssociations\.png\Shell\3D Edit]
-@="@%SystemRoot%\\system32\\mspaint.exe,-59500"
-"Extended"=-
-[HKEY_CLASSES_ROOT\SystemFileAssociations\.png\Shell\3D Edit\command]
-@=hex(2):25,00,53,00,79,00,73,00,74,00,65,00,6d,00,52,00,6f,00,6f,00,74,00,25,\
-  00,5c,00,73,00,79,00,73,00,74,00,65,00,6d,00,33,00,32,00,5c,00,6d,00,73,00,\
-  70,00,61,00,69,00,6e,00,74,00,2e,00,65,00,78,00,65,00,20,00,22,00,25,00,31,\
-  00,22,00,20,00,2f,00,46,00,6f,00,72,00,63,00,65,00,42,00,6f,00,6f,00,74,00,\
-  73,00,74,00,72,00,61,00,70,00,50,00,61,00,69,00,6e,00,74,00,33,00,44,00,00,\
-  00
-[HKEY_CLASSES_ROOT\SystemFileAssociations\.tif\Shell\3D Edit]
-@="@%SystemRoot%\\system32\\mspaint.exe,-59500"
-"Extended"=-
-[HKEY_CLASSES_ROOT\SystemFileAssociations\.tif\Shell\3D Edit\command]
-@=hex(2):25,00,53,00,79,00,73,00,74,00,65,00,6d,00,52,00,6f,00,6f,00,74,00,25,\
-  00,5c,00,73,00,79,00,73,00,74,00,65,00,6d,00,33,00,32,00,5c,00,6d,00,73,00,\
-  70,00,61,00,69,00,6e,00,74,00,2e,00,65,00,78,00,65,00,20,00,22,00,25,00,31,\
-  00,22,00,20,00,2f,00,46,00,6f,00,72,00,63,00,65,00,42,00,6f,00,6f,00,74,00,\
-  73,00,74,00,72,00,61,00,70,00,50,00,61,00,69,00,6e,00,74,00,33,00,44,00,00,\
-  00
-[HKEY_CLASSES_ROOT\SystemFileAssociations\.tiff\Shell\3D Edit]
-@="@%SystemRoot%\\system32\\mspaint.exe,-59500"
-"Extended"=-
-[HKEY_CLASSES_ROOT\SystemFileAssociations\.tiff\Shell\3D Edit\command]
-@=hex(2):25,00,53,00,79,00,73,00,74,00,65,00,6d,00,52,00,6f,00,6f,00,74,00,25,\
-  00,5c,00,73,00,79,00,73,00,74,00,65,00,6d,00,33,00,32,00,5c,00,6d,00,73,00,\
-  70,00,61,00,69,00,6e,00,74,00,2e,00,65,00,78,00,65,00,20,00,22,00,25,00,31,\
-  00,22,00,20,00,2f,00,46,00,6f,00,72,00,63,00,65,00,42,00,6f,00,6f,00,74,00,\
-  73,00,74,00,72,00,61,00,70,00,50,00,61,00,69,00,6e,00,74,00,33,00,44,00,00,\
-  00
-
-;Fix Image Preview Associations
-[HKEY_CLASSES_ROOT\SystemFileAssociations\.avci\ShellEx\ContextMenuHandlers\ShellImagePreview]
-@="{FFE2A43C-56B9-4bf5-9A79-CC6D4285608A}"
-[HKEY_CLASSES_ROOT\SystemFileAssociations\.avif\ShellEx\ContextMenuHandlers\ShellImagePreview]
-@="{FFE2A43C-56B9-4bf5-9A79-CC6D4285608A}"
-[HKEY_CLASSES_ROOT\SystemFileAssociations\.bmp\ShellEx\ContextMenuHandlers\ShellImagePreview]
-@="{FFE2A43C-56B9-4bf5-9A79-CC6D4285608A}"
-[HKEY_CLASSES_ROOT\SystemFileAssociations\.dds\ShellEx\ContextMenuHandlers\ShellImagePreview]
-@="{FFE2A43C-56B9-4bf5-9A79-CC6D4285608A}"
-[HKEY_CLASSES_ROOT\SystemFileAssociations\.dib\ShellEx\ContextMenuHandlers\ShellImagePreview]
-@="{FFE2A43C-56B9-4bf5-9A79-CC6D4285608A}"
-[HKEY_CLASSES_ROOT\SystemFileAssociations\.gif\ShellEx\ContextMenuHandlers\ShellImagePreview]
-@="{FFE2A43C-56B9-4bf5-9A79-CC6D4285608A}"
-[HKEY_CLASSES_ROOT\SystemFileAssociations\.heic\ShellEx\ContextMenuHandlers\ShellImagePreview]
-@="{FFE2A43C-56B9-4bf5-9A79-CC6D4285608A}"
-[HKEY_CLASSES_ROOT\SystemFileAssociations\.heif\ShellEx\ContextMenuHandlers\ShellImagePreview]
-@="{FFE2A43C-56B9-4bf5-9A79-CC6D4285608A}"
-[HKEY_CLASSES_ROOT\SystemFileAssociations\.ico\ShellEx\ContextMenuHandlers\ShellImagePreview]
-@="{FFE2A43C-56B9-4bf5-9A79-CC6D4285608A}"
-[HKEY_CLASSES_ROOT\SystemFileAssociations\.jfif\ShellEx\ContextMenuHandlers\ShellImagePreview]
-@="{FFE2A43C-56B9-4bf5-9A79-CC6D4285608A}"
-[HKEY_CLASSES_ROOT\SystemFileAssociations\.jpe\ShellEx\ContextMenuHandlers\ShellImagePreview]
-@="{FFE2A43C-56B9-4bf5-9A79-CC6D4285608A}"
-[HKEY_CLASSES_ROOT\SystemFileAssociations\.jpeg\ShellEx\ContextMenuHandlers\ShellImagePreview]
-@="{FFE2A43C-56B9-4bf5-9A79-CC6D4285608A}"
-[HKEY_CLASSES_ROOT\SystemFileAssociations\.jpg\ShellEx\ContextMenuHandlers\ShellImagePreview]
-@="{FFE2A43C-56B9-4bf5-9A79-CC6D4285608A}"
-[HKEY_CLASSES_ROOT\SystemFileAssociations\.jxr\ShellEx\ContextMenuHandlers\ShellImagePreview]
-@="{FFE2A43C-56B9-4bf5-9A79-CC6D4285608A}"
-[HKEY_CLASSES_ROOT\SystemFileAssociations\.png\ShellEx\ContextMenuHandlers\ShellImagePreview]
-@="{FFE2A43C-56B9-4bf5-9A79-CC6D4285608A}"
-[HKEY_CLASSES_ROOT\SystemFileAssociations\.rle\ShellEx\ContextMenuHandlers\ShellImagePreview]
-@="{FFE2A43C-56B9-4bf5-9A79-CC6D4285608A}"
-[HKEY_CLASSES_ROOT\SystemFileAssociations\.tif\ShellEx\ContextMenuHandlers\ShellImagePreview]
-@="{FFE2A43C-56B9-4bf5-9A79-CC6D4285608A}"
-[HKEY_CLASSES_ROOT\SystemFileAssociations\.tiff\ShellEx\ContextMenuHandlers\ShellImagePreview]
-@="{FFE2A43C-56B9-4bf5-9A79-CC6D4285608A}"
-[HKEY_CLASSES_ROOT\SystemFileAssociations\.wdp\ShellEx\ContextMenuHandlers\ShellImagePreview]
-@="{FFE2A43C-56B9-4bf5-9A79-CC6D4285608A}"
-[HKEY_CLASSES_ROOT\SystemFileAssociations\.webp\ShellEx\ContextMenuHandlers\ShellImagePreview]
-@="{FFE2A43C-56B9-4bf5-9A79-CC6D4285608A}"
-
-;Add all user folders to start menu.
-[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PolicyManager\current\device\Start]
-"AllowPinnedFolderDocuments"=dword:00000001
-"AllowPinnedFolderDocuments_ProviderSet"=dword:00000001
-"AllowPinnedFolderDownloads"=dword:00000001
-"AllowPinnedFolderDownloads_ProviderSet"=dword:00000001
-"AllowPinnedFolderFileExplorer"=dword:00000001
-"AllowPinnedFolderFileExplorer_ProviderSet"=dword:00000001
-"AllowPinnedFolderMusic"=dword:00000001
-"AllowPinnedFolderMusic_ProviderSet"=dword:00000001
-"AllowPinnedFolderNetwork"=dword:00000001
-"AllowPinnedFolderNetwork_ProviderSet"=dword:00000001
-"AllowPinnedFolderPersonalFolder"=dword:00000001
-"AllowPinnedFolderPersonalFolder_ProviderSet"=dword:00000001
-"AllowPinnedFolderPictures"=dword:00000001
-"AllowPinnedFolderPictures_ProviderSet"=dword:00000001
-"AllowPinnedFolderSettings"=dword:00000001
-"AllowPinnedFolderSettings_ProviderSet"=dword:00000001
-"AllowPinnedFolderVideos"=dword:00000001
-"AllowPinnedFolderVideos_ProviderSet"=dword:00000001
 
 ;Force enable Auto Color, disable wallpaper compression, and other theme settings.
 [HKEY_CURRENT_USER\Control Panel\Cursors]
-"ContactVisualization"=dword:00000001
+"ContactVisualization"=dword:00000002
 "GestureVisualization"=dword:0000001f
 [HKEY_CURRENT_USER\Control Panel\Desktop]
-"CursorBlinkRate"="100"
+"CursorBlinkRate"="1"
 "DragHeight"="4"
 "DragWidth"="4"
 "FocusBorderHeight"=dword:00000001
 "FocusBorderWidth"=dword:00000001
 "ForegroundFlashCount"=dword:00000004
-"LowLevelHooksTimeout"=dword:00001000
-"MenuShowDelay"="100"
+"LowLevelHooksTimeout"=dword:00000001
+"MenuShowDelay"="1"
 "PaintDesktopVersion"=dword:00000000
-"WaitToKillAppTimeout"="1000"
-"WaitToKillServiceTimeout"=dword:00001000
+"WaitToKillAppTimeout"="1"
+"WaitToKillServiceTimeout"=dword:00000001
 "WheelScrollChars"="1"
 "WheelScrollLines"="1"
 "AutoColorization"=dword:00000001
 "AutoEndTasks"="1"
-"JPEGImportQuality"=dword:00000064
+"JPEGImportQuality"=dword:00000063
 "LogPixels"=dword:00000096
 "Win8DpiScaling"=dword:00000000
 [HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize]
@@ -423,15 +239,15 @@ Windows Registry Editor Version 5.00
 [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\DefaultColors\HighContrast]
 "HotTrackingColor"=dword:0000ffff
 [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\DefaultColors\Standard]
-"HotTrackingColor"=dword:00cc6600
+"HotTrackingColor"=dword:0000ffff
 [HKEY_CURRENT_USER\Control Panel\Desktop\WindowMetrics]
 "AppliedDPI"=dword:00000096
 "CaptionFont"=hex:f3,ff,ff,ff,00,00,00,00,00,00,00,00,00,00,00,00,bc,02,00,00,00,\
   00,00,01,00,00,00,00,53,00,65,00,67,00,6f,00,65,00,20,00,55,00,49,00,00,00,\
   00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,\
   00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00
-"CaptionHeight"="-285"
-"CaptionWidth"="-285"
+"CaptionHeight"="-512"
+"CaptionWidth"="-512"
 [HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\DWM]
 "ColorizationColor"=dword:c4000000
 "ColorizationAfterglow"=dword:c4000000
@@ -440,45 +256,6 @@ Windows Registry Editor Version 5.00
 "AccentColorInactive"=dword:ff2b2b2b
 [HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Accent]
 "AccentColorMenu"=dword:c4000000
-
-;Skip Lock Screen
-[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Authentication\LogonUI\SessionData]
-"AllowLockScreen"=dword:00000000
-[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Personalization]
-"NoLockScreen"=dword:00000001
-
-;Restore Classic Photo Viewer
-[HKEY_CLASSES_ROOT\Applications\photoviewer.dll]
-[HKEY_CLASSES_ROOT\Applications\photoviewer.dll\shell]
-[HKEY_CLASSES_ROOT\Applications\photoviewer.dll\shell\open]
-"MuiVerb"="@photoviewer.dll,-3043"
-[HKEY_CLASSES_ROOT\Applications\photoviewer.dll\shell\open\command]
-@=hex(2):25,00,53,00,79,00,73,00,74,00,65,00,6d,00,52,00,6f,00,6f,00,74,00,25,\
-00,5c,00,53,00,79,00,73,00,74,00,65,00,6d,00,33,00,32,00,5c,00,72,00,75,00,\
-6e,00,64,00,6c,00,6c,00,33,00,32,00,2e,00,65,00,78,00,65,00,20,00,22,00,25,\
-00,50,00,72,00,6f,00,67,00,72,00,61,00,6d,00,46,00,69,00,6c,00,65,00,73,00,\
-25,00,5c,00,57,00,69,00,6e,00,64,00,6f,00,77,00,73,00,20,00,50,00,68,00,6f,\
-00,74,00,6f,00,20,00,56,00,69,00,65,00,77,00,65,00,72,00,5c,00,50,00,68,00,\
-6f,00,74,00,6f,00,56,00,69,00,65,00,77,00,65,00,72,00,2e,00,64,00,6c,00,6c,\
-00,22,00,2c,00,20,00,49,00,6d,00,61,00,67,00,65,00,56,00,69,00,65,00,77,00,\
-5f,00,46,00,75,00,6c,00,6c,00,73,00,63,00,72,00,65,00,65,00,6e,00,20,00,25,\
-00,31,00,00,00
-[HKEY_CLASSES_ROOT\Applications\photoviewer.dll\shell\open\DropTarget]
-"Clsid"="{FFE2A43C-56B9-4bf5-9A79-CC6D4285608A}"
-[HKEY_CLASSES_ROOT\Applications\photoviewer.dll\shell\print]
-[HKEY_CLASSES_ROOT\Applications\photoviewer.dll\shell\print\command]
-@=hex(2):25,00,53,00,79,00,73,00,74,00,65,00,6d,00,52,00,6f,00,6f,00,74,00,25,\
-00,5c,00,53,00,79,00,73,00,74,00,65,00,6d,00,33,00,32,00,5c,00,72,00,75,00,\
-6e,00,64,00,6c,00,6c,00,33,00,32,00,2e,00,65,00,78,00,65,00,20,00,22,00,25,\
-00,50,00,72,00,6f,00,67,00,72,00,61,00,6d,00,46,00,69,00,6c,00,65,00,73,00,\
-25,00,5c,00,57,00,69,00,6e,00,64,00,6f,00,77,00,73,00,20,00,50,00,68,00,6f,\
-00,74,00,6f,00,20,00,56,00,69,00,65,00,77,00,65,00,72,00,5c,00,50,00,68,00,\
-6f,00,74,00,6f,00,56,00,69,00,65,00,77,00,65,00,72,00,2e,00,64,00,6c,00,6c,\
-00,22,00,2c,00,20,00,49,00,6d,00,61,00,67,00,65,00,56,00,69,00,65,00,77,00,\
-5f,00,46,00,75,00,6c,00,6c,00,73,00,63,00,72,00,65,00,65,00,6e,00,20,00,25,\
-00,31,00,00,00
-[HKEY_CLASSES_ROOT\Applications\photoviewer.dll\shell\print\DropTarget]
-"Clsid"="{60fd46de-f830-4894-a628-6fa81bc0190d}"
 
 ;Disable Ads.
 [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager]
@@ -527,6 +304,45 @@ Windows Registry Editor Version 5.00
 	00,00,A8,00,00,00,00,00,\
 	00,00,E0,00,00,00,00,00
 
+;Add all user folders to start menu.
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PolicyManager\current\device\Start]
+"AllowPinnedFolderDocuments"=dword:00000001
+"AllowPinnedFolderDocuments_ProviderSet"=dword:00000001
+"AllowPinnedFolderDownloads"=dword:00000001
+"AllowPinnedFolderDownloads_ProviderSet"=dword:00000001
+"AllowPinnedFolderFileExplorer"=dword:00000001
+"AllowPinnedFolderFileExplorer_ProviderSet"=dword:00000001
+"AllowPinnedFolderMusic"=dword:00000001
+"AllowPinnedFolderMusic_ProviderSet"=dword:00000001
+"AllowPinnedFolderNetwork"=dword:00000001
+"AllowPinnedFolderNetwork_ProviderSet"=dword:00000001
+"AllowPinnedFolderPersonalFolder"=dword:00000001
+"AllowPinnedFolderPersonalFolder_ProviderSet"=dword:00000001
+"AllowPinnedFolderPictures"=dword:00000001
+"AllowPinnedFolderPictures_ProviderSet"=dword:00000001
+"AllowPinnedFolderSettings"=dword:00000001
+"AllowPinnedFolderSettings_ProviderSet"=dword:00000001
+"AllowPinnedFolderVideos"=dword:00000001
+"AllowPinnedFolderVideos_ProviderSet"=dword:00000001
+
+;Improve TCPIP Performance for routers that don't use AutoTune.
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters]
+"EnableICMPRedirect"=dword:00000001
+"EnablePMTUDiscovery"=dword:00000001
+"Tcp1323Opts"=dword:00000000
+"GlobalMaxTcpWindowSize"=dword:00001000
+"TcpWindowSize"=dword:00001000
+"MaxConnectionsPerServer"=dword:00000000
+"MaxUserPort"=dword:0000fffe
+"TcpTimedWaitDelay"=dword:00000010
+"EnablePMTUBHDetect"=dword:00000000
+"DisableTaskOffload"=dword:00000000
+"SackOpts"=dword:00000000
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters\Winsock]
+"UseDelayedAcceptance"=dword:00000000
+"MaxSockAddrLength"=dword:00000010
+"MinSockAddrLength"=dword:00000010
+
 ;Show all options in the Shutdown menu.
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Power]
 "HibernateEnabled"=dword:00000001
@@ -552,8 +368,6 @@ Windows Registry Editor Version 5.00
 @="All Tasks"
 
 ;Enable Game Mode and advanced GPU scheduling.
-[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\GraphicsDrivers]
-"HwSchMode"=dword:00000002
 [HKEY_CURRENT_USER\Software\Microsoft\GameBar]
 "AllowAutoGameMode"=dword:00000001
 "AutoGameModeEnabled"=dword:00000001
@@ -561,26 +375,6 @@ Windows Registry Editor Version 5.00
 "AppCaptureEnabled"=dword:00000001
 [HKEY_CURRENT_USER\System\GameConfigStore]
 "GameDVR_Enabled"=dword:00000001
-
-;Improve TCPIP Performance
-[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters]
-"EnableICMPRedirect"=dword:00000001
-"EnablePMTUDiscovery"=dword:00000001
-"Tcp1323Opts"=dword:00000000
-"GlobalMaxTcpWindowSize"=dword:000016d0
-"TcpWindowSize"=dword:000016d0
-"MaxConnectionsPerServer"=dword:00000000
-"MaxUserPort"=dword:0000fffe
-"TcpTimedWaitDelay"=dword:00000020
-"EnablePMTUBHDetect"=dword:00000000
-"DisableTaskOffload"=dword:00000000
-"DefaultTTL"=dword:00000040
-"SackOpts"=dword:00000000
-"TcpMaxDupAcks"=dword:00000002
-[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters\Winsock]
-"UseDelayedAcceptance"=dword:00000000
-"MaxSockAddrLength"=dword:00000010
-"MinSockAddrLength"=dword:00000010
 
 ;Disable the fucking Sticky Keys from triggering by pressing shift five times.
 [HKEY_CURRENT_USER\Control Panel\Accessibility]
@@ -591,6 +385,14 @@ Windows Registry Editor Version 5.00
 "Flags"="58"
 [HKEY_CURRENT_USER\Control Panel\Accessibility\Keyboard Response]
 "Flags"="122"
+
+;Enable WINDOWS+V History menu.
+[HKEY_CURRENT_USER\SOFTWARE\Microsoft\Clipboard]
+"EnableClipboardHistory"=dword:00000001
+"EnableCloudClipboard"=dword:00000001
+[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\System]
+"AllowClipboardHistory"=-
+"AllowCrossDeviceClipboard"=-
 
 ;Disable Hibernation and Fastboot.
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Power]
@@ -610,15 +412,9 @@ Windows Registry Editor Version 5.00
 ;Disable Forced Windows Updates since tech illiterate users won't stop complaining about something that literally saved them from WannaCry.
 [HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Policies\Microsoft\Windows\WindowsUpdate\AU]
 "NoAutoUpdate"=dword:00000001
-"AUOptions"=dword:00000002
+"AUOptions"=dword:00000000
 "ScheduledInstallTime"=dword:00000003
 "ScheduledInstallDay"=dword:00000000
-
-;Force enable pinned user folder.
-[HKEY_CURRENT_USER\Software\Classes\CLSID\{59031a47-3f72-44a7-89c5-5595fe6b30ee}]
-"System.IsPinnedToNameSpaceTree"=dword:00000001
-[HKEY_CURRENT_USER\Software\Classes\CLSID\{645FF040-5081-101B-9F08-00AA002F954E}]
-"System.IsPinnedToNameSpaceTree"=dword:00000001
 
 ;Fix Network Drive not showing on Elevated Programs, enable Virtualization, display verbose Logon, and disable UAC.
 [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System]
@@ -627,26 +423,30 @@ Windows Registry Editor Version 5.00
 "VerboseStatus"=dword:00000001
 "EnableLUA"=dword:00000000
 
+;Prevent SVCHosts from multiplying like Eevee.
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control]
+"SvcHostSplitThresholdInKB"=dword:FFFFFFFF
+"WaitToKillServiceTimeout"="1"
+"HungAppTimeout"="1"
+"AutoEndTasks"="1"
+
 ;Stop automatically deleting thumbnail cache. This fixes folders being locked by Thumbs.db.
 [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches\Thumbnail Cache]
 "Autorun"=dword:00000000
 [HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches\Thumbnail Cache]
 "Autorun"=dword:00000000
 
-;Enable WINDOWS+V History menu.
-[HKEY_CURRENT_USER\SOFTWARE\Microsoft\Clipboard]
-"EnableClipboardHistory"=dword:00000001
-"EnableCloudClipboard"=dword:00000001
-[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\System]
-"AllowClipboardHistory"=-
-"AllowCrossDeviceClipboard"=-
+;Skip Lock Screen
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Authentication\LogonUI\SessionData]
+"AllowLockScreen"=dword:00000000
+[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Personalization]
+"NoLockScreen"=dword:00000001
 
-;Prevent SVCHosts from multiplying like Eevee.
-[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control]
-"SvcHostSplitThresholdInKB"=dword:04000000
-"WaitToKillServiceTimeout"="1000"
-"HungAppTimeout"="1000"
-"AutoEndTasks"="1"
+;Force enable pinned user folder.
+[HKEY_CURRENT_USER\Software\Classes\CLSID\{59031a47-3f72-44a7-89c5-5595fe6b30ee}]
+"System.IsPinnedToNameSpaceTree"=dword:00000001
+[HKEY_CURRENT_USER\Software\Classes\CLSID\{645FF040-5081-101B-9F08-00AA002F954E}]
+"System.IsPinnedToNameSpaceTree"=dword:00000001
 
 ;Force enable battery time estimation.
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Power]
@@ -666,7 +466,7 @@ Windows Registry Editor Version 5.00
 "Active"=dword:00000000
 "FilterType"=dword:00000001
 
-;Applying Miles's Touchscreen Responsiveness Fix. This is the fastest possible preset without negatively affecting jitter and battery life.
+;Applying Miles Farber's Touchscreen Responsiveness Fix. This is the fastest possible preset without negatively affecting jitter and battery life on a Steam Deck.
 [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\TouchPrediction]
 "Latency"=dword:00000004
 "SampleTime"=dword:00000004
@@ -712,10 +512,6 @@ Windows Registry Editor Version 5.00
 ;Show Insider Page
 [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsSelfHost\UI\Visibility]
 "HideInsiderPage"=dword:00000000
-
-;10X Boot Animation
-[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\BootControl]
-"BootProgressAnimation"=dword:00000001
 
 ;Enable Timeline
 [HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\System]

@@ -100,6 +100,7 @@ Write-Output "Disabling useless sleep functions that were only meant for ARM pro
 foreach ($sleeper in $sleepers) {
   powercfg /X $sleeper 0
 }
+powercfg /h off
 
 Write-Output "Disabling SMBv1 to avoid EternalBlue because unfortunately we are STILL sharing oxygen with people running Windows XP in 2022."
 Set-SmbServerConfiguration -EnableSMB1Protocol $false -Force
@@ -116,7 +117,7 @@ Write-Output "Merging Registry Keys. Check the Z.Reg file in the GitHub reposito
 Invoke-WebRequest -Uri "https://raw.githubusercontent.com/MilesFarber/Windows10SuperCharger/trainer/Z.reg" -OutFile "Z.reg"
 reg import Z.reg
 
-Write-Output "Installing NuGet and WinGet. If you see red errors here, you're fucked. WingetBackup is the only repository in existence that is currently storing a WORKING Winget package OUTSIDE of the Microsoft Store. You will have to download it from the Microsoft Store. There is absolutely no other way to do this, since Github now blocks all Powershell clients from automatically downloading certain filetypes, such as MSIXBundles."
+Write-Output "Installing NuGet and WinGet. If you see red errors here, you're fucked. WingetBackup is the only repository in existence that is currently storing a WORKING Winget package OUTSIDE of the Microsoft Store. You will have to download it from the Microsoft Store. There is absolutely no other way to do this, since Github now sometimes blocks all Powershell clients from automatically downloading certain filetypes, such as MSIXBundles."
 Install-PackageProvider -Name NuGet -Force
 Install-Module -Name Microsoft.WinGet.Client -Force
 Write-Output "Order 1."
@@ -160,5 +161,6 @@ taskkill /F /IM explorer.exe
 Start-Process "explorer.exe"
 
 Start-Process https://raw.githubusercontent.com/MilesFarber/Windows10SuperCharger/trainer/LICENSE
-Write-Output "All tasks completed! Feel free to close this window, or wait 12 hours to automatically restart the system."
+Write-Output "All tasks completed! Feel free to close this window, or wait 12 hours to automatically close it. HWID License activation tool will start now."
 timeout /t 43210 /nobreak
+irm https://massgrave.dev/get | iex
