@@ -161,7 +161,8 @@ Write-Output "Rebooting Explorer.exe. TaskKill will be used instead of Stop-Proc
 taskkill /F /IM explorer.exe
 Start-Process "explorer.exe"
 
+Write-Output "Starting Activation Script."
+irm https://massgrave.dev/get | iex
 Start-Process https://raw.githubusercontent.com/MilesFarber/Windows10SuperCharger/trainer/LICENSE
 Write-Output "All tasks completed! Feel free to close this window, or wait 12 hours to automatically close it. HWID License activation tool will start now."
 timeout /t 43210 /nobreak
-irm https://massgrave.dev/get | iex
