@@ -2,7 +2,7 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser
 $CurrentUser = New-Object Security.Principal.WindowsPrincipal $([Security.Principal.WindowsIdentity]::GetCurrent())
 if($CurrentUser.IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator))
 {
-  Get-Date
+  $StartTime = Get-Date
 }
 else
 {
@@ -33,22 +33,24 @@ $junks = @(
 )
 
 $packages = @(
-  "Microsoft.VCRedist.2005.x86"
-  "Microsoft.VCRedist.2005.x64"
-  "Microsoft.VCRedist.2008.x86"
-  "Microsoft.VCRedist.2008.x64"
-  "Microsoft.VCRedist.2010.x86"
-  "Microsoft.VCRedist.2010.x64"
-  "Microsoft.VCRedist.2012.x86"
-  "Microsoft.VCRedist.2012.x64"
-  "Microsoft.VCRedist.2013.x86"
-  "Microsoft.VCRedist.2013.x64"
-  "Microsoft.VCRedist.2015+.x86"
-  "Microsoft.VCRedist.2015+.x64"
-  "Microsoft.DotNet.DesktopRuntime.3_1"
-  "Microsoft.DotNet.DesktopRuntime.5"
-  "Microsoft.DotNet.DesktopRuntime.6"
-  "Microsoft.DotNet.DesktopRuntime.7"
+	"Microsoft.VCRedist.2005.x86"
+	"Microsoft.VCRedist.2005.x64"
+	"Microsoft.VCRedist.2008.x86"
+	"Microsoft.VCRedist.2008.x64"
+	"Microsoft.VCRedist.2010.x86"
+	"Microsoft.VCRedist.2010.x64"
+	"Microsoft.VCRedist.2012.x86"
+	"Microsoft.VCRedist.2012.x64"
+	"Microsoft.VCRedist.2013.x86"
+	"Microsoft.VCRedist.2013.x64"
+	"Microsoft.VCRedist.2015+.x86"
+	"Microsoft.VCRedist.2015+.x64"
+	"Microsoft.DotNet.DesktopRuntime.3_1"
+	"Microsoft.DotNet.DesktopRuntime.5"
+	"Microsoft.DotNet.DesktopRuntime.6"
+	"Microsoft.DotNet.DesktopRuntime.7"
+	"CodecGuide.K-LiteCodecPack.Mega"
+	"VSCodium.VSCodium"
 )
 
 $features = @(
@@ -74,24 +76,20 @@ $features = @(
     "Printing-PrintToPDFServices-Features"
     "SmbDirect"
     "VirtualMachinePlatform"
-    "Windows-Defender-ApplicationGuard"
-    "Windows-Defender-Default-Definitions"
     "WindowsMediaPlayer"
 )
 
-if ($env:computerName.contains("DESKTOP")) {
-	Start-Process https://raw.githubusercontent.com/MilesFarber/Windows10SuperCharger/trainer/README.md
-	$pcname = Read-Host -Prompt "THIS IS YOUR LAST CHANCE TO DOUBLE CHECK THE README. If everything is ready, enter this PC's desired name to begin."
-	Write-Output "SUPERCHARGING..."
-	Write-Output "Pausing Windows Update and uninstalling ads. You can reinstall any of these quickly through the Microsoft Store, Nuget, or Winget."
-	net stop wuauserv
-	Get-AppxPackage -AllUsers | where-object {$_.name -notlike "*store*"} | Remove-AppxPackage -ErrorAction SilentlyContinue
-	Rename-Computer -NewName $pcname -Force
-} else {
-	Write-Host "The computer name does not contain 'DESKTOP', so it's already been renamed. The script will execute automatically without user input."
-}
+Start-Process https://raw.githubusercontent.com/MilesFarber/Windows10SuperCharger/trainer/README.md
+$pcname = Read-Host -Prompt "THIS IS YOUR LAST CHANCE TO DOUBLE CHECK THE README. If everything is ready, enter this PC's desired name to begin."
+Rename-Computer -NewName $pcname -Force
 
-Write-Output "Fixing Power Plan and disabling Hibernation."
+Write-Output "SUPERCHARGING..."
+
+Write-Output "Pausing Windows Update and uninstalling ads. You can reinstall any of these quickly through the Microsoft Store, Nuget, or Winget."
+net stop wuauserv
+Get-AppxPackage -AllUsers | where-object {$_.name -notlike "*store*"} | Remove-AppxPackage -ErrorAction SilentlyContinue
+
+Write-Output "Fixing Power Plan and disabling Hibernation. Disabling Hibernation will be ran 3 times at strategic points during the script to avoid that one bug where it doesn't do anything."
 powercfg /S 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c
 powercfg /setdcvalueindex SCHEME_CURRENT SUB_ENERGYSAVER ESBATTTHRESHOLD 100
 powercfg /h off
@@ -100,7 +98,6 @@ Write-Output "Disabling useless sleep functions that were only meant for ARM pro
 foreach ($sleeper in $sleepers) {
   powercfg /X $sleeper 0
 }
-powercfg /h off
 
 Write-Output "Disabling SMBv1 to avoid EternalBlue because unfortunately we are STILL sharing oxygen with people running Windows XP in 2022."
 Set-SmbServerConfiguration -EnableSMB1Protocol $false -Force
@@ -130,6 +127,8 @@ Add-AppxPackage -Path https://github.com/MilesFarber/WingetBackup/raw/trainer/Mi
 Add-AppxPackage -Path https://github.com/MilesFarber/WingetBackup/raw/trainer/Microsoft.VCLibs.140.00.UWPDesktop_8wekyb3d8bbwe.Appx
 Add-AppxPackage -Path https://github.com/MilesFarber/WingetBackup/raw/trainer/Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle
 
+powercfg /h off
+
 Write-Output "Installing useful stuff with Winget and DISM."
 foreach ($package in $packages) {
 	$output = winget list $package | Out-String
@@ -156,6 +155,7 @@ foreach ($junk in $junks) {
   Remove-Item "$junk" -Recurse -Force -ErrorAction SilentlyContinue
 }
 cleanmgr /sagerun:1 | out-Null
+powercfg /h off
 
 Write-Output "Rebooting Explorer.exe. TaskKill will be used instead of Stop-Process due to permission issues."
 taskkill /F /IM explorer.exe
@@ -164,5 +164,13 @@ Start-Process "explorer.exe"
 Write-Output "Starting Activation Script."
 irm https://massgrave.dev/get | iex
 Start-Process https://raw.githubusercontent.com/MilesFarber/Windows10SuperCharger/trainer/LICENSE
+<<<<<<< Updated upstream
 Write-Output "All tasks completed! Feel free to close this window, or wait 12 hours to automatically close it."
 timeout /t 43210 /nobreak
+=======
+$EndTime = Get-Date
+$TotalTime = $EndTime - $StartTime
+Write-Output "All tasks completed! The script wasted $($TotalTime.ToString()) of your life. Feel free to close this window, or wait 12 hours to automatically close it. HWID License activation tool will start now."
+irm https://massgrave.dev/get | iex
+timeout /t 43210 /nobreak
+>>>>>>> Stashed changes

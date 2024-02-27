@@ -164,7 +164,7 @@ Windows Registry Editor Version 5.00
 "DesktopLivePreviewHoverTime"=dword:00000001
 "DisablePreviewDesktop"=dword:00000000
 "DisallowShaking"=dword:00000001
-"DontPrettyPath"=dword:00000001
+"DontPrettyPath"=dword:00000000
 "EncryptionContextMenu"=dword:00000001
 "EnableTaskGroups"=dword:00000001
 "Filter"=dword:00000001
@@ -184,19 +184,18 @@ Windows Registry Editor Version 5.00
 "NavPaneShowAllFolders"=dword:00000000
 "PersistBrowsers"=dword:00000001
 "ReindexedProfile"=dword:00000001
-"SeparateProcess"=dword:00000001
+"SeparateProcess"=dword:00000000
 "ServerAdminUI"=dword:00000001
 "ShellViewReentered"=dword:00000001
 "ShowCompColor"=dword:00000001
-"ShowCortanaButton"=dword:00000001
+"ShowCortanaButton"=dword:00000000
 "ShowEncryptCompressedColor"=dword:00000001
 "ShowInfoTip"=dword:00000001
 "ShowSecondsInSystemClock"=dword:00000001
 "ShowStatusBar"=dword:00000001
 "ShowSuperHidden"=dword:00000001
-"ShowTaskViewButton"=dword:00000001
+"ShowTaskViewButton"=dword:00000000
 "ShowTypeOverlay"=dword:00000001
-"Start_TrackDocs"=dword:00000001
 "StartMigratedBrowserPin"=dword:00000001
 "StoreAppsOnTaskbar"=dword:00000001
 "TaskbarAnimations"=dword:00000001
@@ -205,12 +204,12 @@ Windows Registry Editor Version 5.00
 "TaskbarSd"=dword:00000001
 "TaskbarSizeMove"=dword:00000001
 "TaskbarSmallIcons"=dword:00000001
-"TypeAhead"=dword:00000001
+"TypeAhead"=dword:00000000
 "WebView"=dword:00000001
 
 ;Force enable Auto Color, disable wallpaper compression, and other theme settings.
 [HKEY_CURRENT_USER\Control Panel\Cursors]
-"ContactVisualization"=dword:00000002
+"ContactVisualization"=dword:00000001
 "GestureVisualization"=dword:0000001f
 [HKEY_CURRENT_USER\Control Panel\Desktop]
 "CursorBlinkRate"="1"
@@ -241,11 +240,6 @@ Windows Registry Editor Version 5.00
 [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\DefaultColors\Standard]
 "HotTrackingColor"=dword:0000ffff
 [HKEY_CURRENT_USER\Control Panel\Desktop\WindowMetrics]
-"AppliedDPI"=dword:00000096
-"CaptionFont"=hex:f3,ff,ff,ff,00,00,00,00,00,00,00,00,00,00,00,00,bc,02,00,00,00,\
-  00,00,01,00,00,00,00,53,00,65,00,67,00,6f,00,65,00,20,00,55,00,49,00,00,00,\
-  00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,\
-  00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00
 "CaptionHeight"="-512"
 "CaptionWidth"="-512"
 [HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\DWM]
@@ -325,24 +319,6 @@ Windows Registry Editor Version 5.00
 "AllowPinnedFolderVideos"=dword:00000001
 "AllowPinnedFolderVideos_ProviderSet"=dword:00000001
 
-;Improve TCPIP Performance for routers that don't use AutoTune.
-[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters]
-"EnableICMPRedirect"=dword:00000001
-"EnablePMTUDiscovery"=dword:00000001
-"Tcp1323Opts"=dword:00000000
-"GlobalMaxTcpWindowSize"=dword:00001000
-"TcpWindowSize"=dword:00001000
-"MaxConnectionsPerServer"=dword:00000000
-"MaxUserPort"=dword:0000fffe
-"TcpTimedWaitDelay"=dword:00000010
-"EnablePMTUBHDetect"=dword:00000000
-"DisableTaskOffload"=dword:00000000
-"SackOpts"=dword:00000000
-[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters\Winsock]
-"UseDelayedAcceptance"=dword:00000000
-"MaxSockAddrLength"=dword:00000010
-"MinSockAddrLength"=dword:00000010
-
 ;Show all options in the Shutdown menu.
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Power]
 "HibernateEnabled"=dword:00000001
@@ -393,14 +369,6 @@ Windows Registry Editor Version 5.00
 [HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\System]
 "AllowClipboardHistory"=-
 "AllowCrossDeviceClipboard"=-
-
-;Disable Hibernation and Fastboot.
-[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Power]
-"HiberbootEnabled"=dword:00000000
-[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Power]
-"HibernateEnabledDefault"=dword:00000000
-[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Power\PowerThrottling]
-"PowerThrottlingOff"=dword:00000001
 
 ;Show all background apps in Taskbar all the time and show drive letters in front.
 [HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer]
@@ -454,7 +422,7 @@ Windows Registry Editor Version 5.00
 [HKEY_CURRENT_USER\Software\Microsoft\Shell\USB]
 "NotifyOnWeakCharger"=dword:00000001
 
-;Clear page file at shutdown. This WILL increase shutdown time in exchange for security and disk space.
+;Clear page file at shutdown. This will increase shutdown time in exchange for security and disk space.
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management]
 "ClearPageFileAtShutdown"=dword:00000001
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\NlaSvc\Parameters\Internet]
@@ -525,7 +493,7 @@ Windows Registry Editor Version 5.00
 [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications]
 "GlobalUserDisabled"=dword:00000001
 
-;Disable storing thumbnails in a Thumbs.db file on Network Shared Drives
+;Disable storing thumbnails in a Thumbs.db file on Network Shared Drives. This massively improves SMB performance on old routers.
 [HKEY_CURRENT_USER\SOFTWARE\Policies\Microsoft\Windows\Explorer]
 "DisableThumbsDBOnNetworkFolders"=dword:00000001
 
