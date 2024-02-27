@@ -51,6 +51,7 @@ $packages = @(
 	"Microsoft.DotNet.DesktopRuntime.7"
 	"CodecGuide.K-LiteCodecPack.Mega"
 	"VSCodium.VSCodium"
+	"Discord.Discord"
 )
 
 $features = @(
