@@ -33,16 +33,15 @@ $junks = @(
 )
 
 $packages = @(
-	"CodecGuide.K-LiteCodecPack.Mega"
+	"CodecGuide.K-LiteCodecPack.Basic"
 	"Discord.Discord"
-	"FxSoundLLC.FxSound"
+	"GitHub.GitHubDesktop"
 	"IObit.AdvancedSystemCare"
 	"IObit.DriverBooster"
 	"IObit.MalwareFighter"
 	"Microsoft.AppInstaller"
 	"Microsoft.DevHome"
 	"Microsoft.DirectX"
-	"Microsoft.DotNet.DesktopRuntime.10"
 	"Microsoft.DotNet.DesktopRuntime.3_1"
 	"Microsoft.DotNet.DesktopRuntime.5"
 	"Microsoft.DotNet.DesktopRuntime.6"
@@ -75,6 +74,7 @@ $packages = @(
 	"Proton.ProtonDrive"
 	"ProtonTechnologies.ProtonMailBridge"
 	"ProtonTechnologies.ProtonVPN"
+	"tomlm.electron-outlook-com"
 )
 
 $features = @(
