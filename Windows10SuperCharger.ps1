@@ -142,14 +142,28 @@ Write-Output "Installing NuGet and WinGet. If you see red errors here, you're fu
 wsreset -i
 Install-PackageProvider -Name NuGet -Force
 Install-Module -Name Microsoft.WinGet.Client -Force
-Write-Output "Order 1."
+
+Write-Output "Pass 1"
 Add-AppxPackage -Path https://github.com/MilesFarber/WingetBackup/raw/trainer/Microsoft.VCLibs.140.00.UWPDesktop_8wekyb3d8bbwe.Appx
 Add-AppxPackage -Path https://github.com/MilesFarber/WingetBackup/raw/trainer/Microsoft.UI.Xaml.2.7_8wekyb3d8bbwe.Appx
 Add-AppxPackage -Path https://github.com/MilesFarber/WingetBackup/raw/trainer/Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle
-Write-Output "Order 2."
-Add-AppxPackage -Path https://github.com/MilesFarber/WingetBackup/raw/trainer/Microsoft.UI.Xaml.2.7_8wekyb3d8bbwe.Appx
+Add-AppxPackage -Path https://github.com/MilesFarber/WingetBackup/raw/trainer/wingetsource.msix
+
+Write-Output "Pass 2"
 Add-AppxPackage -Path https://github.com/MilesFarber/WingetBackup/raw/trainer/Microsoft.VCLibs.140.00.UWPDesktop_8wekyb3d8bbwe.Appx
+Add-AppxPackage -Path https://github.com/MilesFarber/WingetBackup/raw/trainer/Microsoft.UI.Xaml.2.7_8wekyb3d8bbwe.Appx
 Add-AppxPackage -Path https://github.com/MilesFarber/WingetBackup/raw/trainer/Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle
+Add-AppxPackage -Path https://github.com/MilesFarber/WingetBackup/raw/trainer/wingetsource.msix
+
+Write-Output "Pass 3"
+Add-AppxPackage -Path https://github.com/MilesFarber/WingetBackup/raw/trainer/Microsoft.VCLibs.140.00.UWPDesktop_8wekyb3d8bbwe.Appx
+Add-AppxPackage -Path https://github.com/MilesFarber/WingetBackup/raw/trainer/Microsoft.UI.Xaml.2.7_8wekyb3d8bbwe.Appx
+Add-AppxPackage -Path https://github.com/MilesFarber/WingetBackup/raw/trainer/Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle
+Add-AppxPackage -Path https://github.com/MilesFarber/WingetBackup/raw/trainer/wingetsource.msix
+
+Write-Output "Disabling page encryption to improve NVME longevity."
+fsutil behavior set DisableLastAccess 1
+fsutil behavior set EncryptPagingFile 0
 
 powercfg /h off
 

@@ -196,6 +196,11 @@ Windows Registry Editor Version 5.00
 "ShowSuperHidden"=dword:00000001
 "ShowTaskViewButton"=dword:00000000
 "ShowTypeOverlay"=dword:00000001
+"ShowMoreTiles"=dword:00000001
+"ShowAppListInStartMenu"=dword:00000001
+"ShowRecentlyAddedApps"=dword:00000001
+"ShowMostUsedApps"=dword:00000001
+"ShowRecentlyOpenedItemsInJumpListsOnStartOrTaskbarAndInFileExplorerQuickAccess"=dword:00000001
 "StartMigratedBrowserPin"=dword:00000001
 "StoreAppsOnTaskbar"=dword:00000001
 "TaskbarAnimations"=dword:00000001
@@ -433,6 +438,11 @@ Windows Registry Editor Version 5.00
 "HotkeyEnabled"=dword:00000001
 "Active"=dword:00000000
 "FilterType"=dword:00000001
+
+;Disable Telemetry
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\DataCollection]
+"AllowTelemetry"=dword:00000000
+"MaxTelemetryAllowed"=dword:00000000
 
 ;Applying Miles Farber's Touchscreen Responsiveness Fix. This is the fastest possible preset without negatively affecting jitter and battery life on a Steam Deck.
 [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\TouchPrediction]
