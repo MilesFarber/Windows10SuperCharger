@@ -108,7 +108,7 @@ Write-Output "SUPERCHARGING..."
 
 Write-Output "Pausing Windows Update and uninstalling ads. You can reinstall any of these quickly through the Microsoft Store, Nuget, or Winget."
 net stop wuauserv
-Get-AppxPackage -AllUsers | where-object {$_.name -notlike "*store*"} | Remove-AppxPackage -ErrorAction SilentlyContinue
+Get-AppxPackage -AllUsers | where-object {$_.name -notlike "*microsoft*"} | Remove-AppxPackage -ErrorAction SilentlyContinue
 
 Write-Output "Fixing Power Plan and disabling Hibernation. Disabling Hibernation will be ran 3 times at strategic points during the script to avoid that one bug where it doesn't do anything."
 powercfg /S 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c
